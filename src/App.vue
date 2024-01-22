@@ -54,7 +54,9 @@ watch(() => router.currentRoute.value, (newVal, oldVal) =>{
 })
 
 const get_tree = async () => {
+
   if (settingsStore.settings.token){
+
     let url = "https://api.github.com/repos/"+settingsStore.settings.sub_repo+"/git/trees/"+settingsStore.settings.branch
     let headers = {
       // 可选的请求头，例如：
@@ -63,6 +65,7 @@ const get_tree = async () => {
       'X-GitHub-Api-Version': '2022-11-28'
     }
     let data = await myFetch.get(url,headers)
+    console.log(data.data)
     if (data.error === null){
       try {
         console.log(data.data.url)

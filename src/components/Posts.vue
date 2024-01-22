@@ -510,7 +510,7 @@ const publish_post = async (e) => {
     type: 'info',
   })
   let root_path = ""
-  if (!settingsStore.settings.root.path === "/"){
+  if (settingsStore.settings.root.path){
     root_path = settingsStore.settings.root.path
   }
   const path = root_path+"/source/_posts/"+file_info.value.filename+".md"

@@ -287,7 +287,7 @@ const extractNodesByPath = inject("extractNodesByPath")
 const getPostFile = () => {
   let data = treeStore.tree_info
   let root_path = ""
-  if (!settingsStore.settings.root.path === "/"){
+  if (settingsStore.settings.root.path){
     root_path = settingsStore.settings.root.path
   }
   let startPath = root_path + "/source/_posts/";
@@ -332,7 +332,7 @@ const deleteGit = async (sha,filename,e) => {
     type: 'info',
   })
   let root_path = ""
-  if (!settingsStore.settings.root.path === "/"){
+  if (settingsStore.settings.root.path){
     root_path = settingsStore.settings.root.path
   }
   let url = "https://api.github.com/repos/" + settingsStore.settings.sub_repo+"/contents"+root_path+"/source/_posts/"+ filename;
