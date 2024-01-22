@@ -120,17 +120,17 @@
         <el-col :span="5" :offset="1" class="glass" style="border-radius: 10px;padding: 10px">
           <el-row>
             <el-col :span="10">
-              <el-avatar :size="50" src="/images/article.svg" style="background: white"/>
+              <el-avatar :size="50" src="/images/github.svg" style="background: white"/>
             </el-col>
             <el-col :span="14" style="text-align: right">
-              <label class="main_label">文章总数</label>
+              <label class="main_label">项目代码</label>
               <br>
-              <span style="font-size: x-large;color: black;font-weight: bolder">{{ fileList.length }}</span>
+              <span style="font-size: x-small;color: black;font-weight: bolder">查看本项目代码</span>
             </el-col>
             <el-col :span="24">
-              <router-link to="/posts" style="text-decoration: none">
-                <label class="sub_label" style="cursor: pointer">去写作>>></label>
-              </router-link>
+              <a href="https://github.com/rimdl/BlogHelper" style="text-decoration: none" target="_blank">
+                <label class="sub_label" style="cursor: pointer">去github>>></label>
+              </a>
             </el-col>
           </el-row>
         </el-col>
