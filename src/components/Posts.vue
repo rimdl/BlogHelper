@@ -116,10 +116,10 @@
             </el-row>
           </el-col>
 
-          <el-col :span="24" style="margin-top: 1vh">
+          <el-col :span="24" style="margin-top: 1vh" v-if="show_settings_edit">
             <el-row>
               <el-col :span="24">
-                <label class="sub_label">手动编辑：</label>
+                <label class="sub_label">手动编辑：<span style="font-size: smaller">(注意：手动编辑不用点击保存按钮)</span></label>
               </el-col>
               <el-col :span="24">
                 <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 10 }" v-model="front_matter" style="width: 100%"/>
@@ -174,7 +174,7 @@ import {useRoute} from 'vue-router';
 import {useSettingsStore} from "@/stores/settingsStore.js";
 
 const {query} = useRoute();
-
+const show_settings_edit = ref(false)
 const editor = ClassicEditor
 const ckeditor5 = CkEditor.component
 const editorData = ref('')
@@ -373,6 +373,7 @@ onMounted(async () =>{
           }
           show_edit.value = true
           showSettings.value = true
+          show_settings_edit.value = true
         } else {
           console.log('No front matter found.');
         }
@@ -392,6 +393,7 @@ onMounted(async () =>{
     if (data.error === null){
       showSettings.value = true
       show_edit.value = true
+      show_settings_edit.value = true
       sha.value = data.data.sha
       let content = new TextDecoder().decode(Uint8Array.from(atob(data.data.content), (c) => c.charCodeAt(0)))
       let matchResult = content.replace(/^---[^]*---/, '');
@@ -433,7 +435,6 @@ function formatDate(date) {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 function removeEmptyEntries(obj) {
-  console.log("组织中")
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
       let value = obj[key];
@@ -451,14 +452,19 @@ function isPropertyValueEmpty(obj, property) {
 const front_matter = ref('')
 const saveFileInfo = () => {
   let tags = []
-  if (!Array.isArray(file_info.value.tags)){
-    tags = file_info.value.tags.split(',').map(tag => tag.trim())
-  }else {
-    tags = file_info.value.tags
+  if (file_info.value.tags){
+    if (!Array.isArray(file_info.value.tags)){
+      tags = file_info.value.tags.split(',').map(tag => tag.trim())
+    }else {
+      tags = file_info.value.tags
+    }
   }
   let obj = JSON.stringify(file_info.value)
   obj = JSON.parse(obj)
-  obj.tags = tags
+  if (tags.length>0){
+    obj.tags = tags
+  }
+  show_settings_edit.value = true
    if(!isPropertyValueEmpty(obj,'filename')){
      show_edit.value = true
      let r_obj = removeEmptyEntries(obj)
