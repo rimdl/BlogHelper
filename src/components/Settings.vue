@@ -192,11 +192,9 @@ watch([() => repo.value,()=>treeStore.tree_info], ([newVal, newVal2],[oldVal,old
   if (newVal !== oldVal && newVal !== '' && newVal !==null){
     if (newVal.trim().indexOf(".com/")!== -1){
       sub_repo.value = newVal.trim().substring(newVal.indexOf(".com/")+5)
-      console.log(2)
     }
     if (newVal2 !== oldVal2){
       let originalData = newVal2
-      console.log(1)
       // 遍历并修改顶层节点
       originalData.forEach(rootNode => {
         addDisableProperty(rootNode);
@@ -237,7 +235,6 @@ const get_user_info = async () => {
   }
   let data = await myFetch.get(url,headers)
   if (data.error === null){
-    console.log(data.data)
     localStorage.setItem("user_info",JSON.stringify(data.data))
     userStore.set_user_info(data.data)
   }
@@ -248,9 +245,7 @@ const get_user_info = async () => {
 
 options.value = treeStore.tree_info
 const handleRootChange = (e) => {
-  console.log(e)
   let settings = JSON.parse(localStorage.getItem("settings"))
-  console.log(root.value)
   settings.root = {'url':root.value}
 }
 const save_other_settings = (e) => {

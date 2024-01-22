@@ -65,10 +65,8 @@ const get_tree = async () => {
       'X-GitHub-Api-Version': '2022-11-28'
     }
     let data = await myFetch.get(url,headers)
-    console.log(data.data)
     if (data.error === null){
       try {
-        console.log(data.data.url)
         const resultTree = await fetchAndBuildGitTree(data.data.url, headers);
         let tree = [{
           "value": {'path':'/','url':data.data.url},

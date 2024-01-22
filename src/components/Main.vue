@@ -265,7 +265,6 @@ const reget_repo = async (e) => {
 }
 const get_repository_info = async () => {
   if (settingsStore.settings.token) {
-    console.log(settingsStore.settings.token)
     let url = "https://api.github.com/repos/" + settingsStore.settings.sub_repo;
     let headers = {
       'Accept': 'application/vnd.github+json',
@@ -292,7 +291,6 @@ const getPostFile = () => {
   }
   let startPath = root_path + "/source/_posts/";
   fileList.value = data.reduce((acc, rootNode) => extractNodesByPath(rootNode, startPath, acc), []);
-  console.log(fileList.value)
 }
 
 const getDrafts = () => {
@@ -362,9 +360,6 @@ const deleteGit = async (sha,filename,e) => {
   }
 }
 
-const test = () => {
-  console.log(fileList.value)
-}
 </script>
 
 <style scoped>
