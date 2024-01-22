@@ -118,6 +118,17 @@
 
           <el-col :span="24" style="margin-top: 1vh">
             <el-row>
+              <el-col :span="24">
+                <label class="sub_label">手动编辑：</label>
+              </el-col>
+              <el-col :span="24">
+                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 10 }" v-model="front_matter" style="width: 100%"/>
+              </el-col>
+            </el-row>
+          </el-col>
+
+          <el-col :span="24" style="margin-top: 1vh">
+            <el-row>
               <el-col :span="24" style="text-align: right">
                 <el-button type="primary" round @click="saveFileInfo">保存</el-button>
                 <router-link to="/settings" style="text-decoration: none">
@@ -356,7 +367,10 @@ onMounted(async () =>{
           const frontMatterContent = match[1];
           const json_data = yaml.load(frontMatterContent)
           file_info.value = json_data
-          editorData.value = draft.content
+          let matchResult = draft.content.match(/---[^-]*---(.*)/);
+          if (matchResult) {
+            editorData.value = matchResult[1];
+          }
           show_edit.value = true
           showSettings.value = true
         } else {
@@ -380,13 +394,16 @@ onMounted(async () =>{
       show_edit.value = true
       sha.value = data.data.sha
       let content = new TextDecoder().decode(Uint8Array.from(atob(data.data.content), (c) => c.charCodeAt(0)))
-      editorData.value = content
+      let matchResult = content.replace(/^---[^]*---/, '');
+        editorData.value = matchResult
       const match = frontMatterRegex.exec(content);
 
       if (match) {
         const frontMatterContent = match[1];
         const json_data = yaml.load(frontMatterContent)
+        front_matter.value = "---\n"+frontMatterContent+"\n---"
         file_info.value = json_data
+
       } else {
         console.log('No front matter found.');
       }
@@ -416,6 +433,7 @@ function formatDate(date) {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 function removeEmptyEntries(obj) {
+  console.log("组织中")
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
       let value = obj[key];
@@ -429,23 +447,22 @@ function removeEmptyEntries(obj) {
 function isPropertyValueEmpty(obj, property) {
   return obj[property] === undefined || obj[property] === null || (typeof obj[property] === 'string' && obj[property].trim() === '');
 }
+
+const front_matter = ref('')
 const saveFileInfo = () => {
-  if (file_info.value.tags){
-    file_info.value.tags = file_info.value.tags.split(',').map(tag => tag.trim())
+  let tags = []
+  if (!Array.isArray(file_info.value.tags)){
+    tags = file_info.value.tags.split(',').map(tag => tag.trim())
+  }else {
+    tags = file_info.value.tags
   }
-  const obj = file_info.value
+  let obj = JSON.stringify(file_info.value)
+  obj = JSON.parse(obj)
+  obj.tags = tags
    if(!isPropertyValueEmpty(obj,'filename')){
      show_edit.value = true
-     removeEmptyEntries(obj)
-     const frontMatterRegex = /^---\n([\s\S]*?)\n---/;
-     const match = frontMatterRegex.exec(editorData.value);
-
-     if (match) {
-       const frontMatterContent = match[1];
-       editorData.value = editorData.value.replace(frontMatterContent,yaml.dump(obj))
-     } else {
-       editorData.value = "---\n"+yaml.dump(obj)+"---"+editorData.value
-     }
+     let r_obj = removeEmptyEntries(obj)
+     front_matter.value = "---\n"+yaml.dump(r_obj)+"---"
    }
    else{
      show_edit.value = false
@@ -463,7 +480,7 @@ const save_draft  = (e) => {
   if(!isPropertyValueEmpty(obj,'filename')){
     const draft = {
       filename: obj.filename,
-      content: editorData.value,
+      content: front_matter.value+"\n"+editorData.value,
       date: obj.date
     }
     if (localStorage.getItem("drafts") !==null){
@@ -516,7 +533,7 @@ const publish_post = async (e) => {
   const path = root_path+"/source/_posts/"+file_info.value.filename+".md"
   const put_url = 'https://api.github.com/repos/' + settingsStore.settings.sub_repo + '/contents'+path
 // 确保字符串是UTF-8编码的，因为btoa()只接受ASCII字符
-  let utf8String = unescape(encodeURIComponent(editorData.value));
+  let utf8String = unescape(encodeURIComponent(front_matter.value+"\n"+editorData.value));
   let content = btoa(utf8String);
   const headers = {
     'Accept': 'application/vnd.github+json',
@@ -564,17 +581,19 @@ const publish_post = async (e) => {
 }
 
 const deleteDraft = (filename) => {
-  const drafts = JSON.parse(localStorage.getItem("drafts"))
-  for (let i = 0; i < drafts.length; i++) {
-    if (drafts[i].filename === filename){
-      drafts.splice(i, 1);
-      ElNotification({
-        title: '提示',
-        message: '草稿已删除',
-        type: 'success',
-      })
-      localStorage.setItem("drafts", JSON.stringify(drafts))
-      break;
+  if (localStorage.getItem("drafts")){
+    const drafts = JSON.parse(localStorage.getItem("drafts"))
+    for (let i = 0; i < drafts.length; i++) {
+      if (drafts[i].filename === filename){
+        drafts.splice(i, 1);
+        ElNotification({
+          title: '提示',
+          message: '草稿已删除',
+          type: 'success',
+        })
+        localStorage.setItem("drafts", JSON.stringify(drafts))
+        break;
+      }
     }
   }
 }
