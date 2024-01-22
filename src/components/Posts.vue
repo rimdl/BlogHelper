@@ -362,15 +362,12 @@ onMounted(async () =>{
       if (draft.filename === query.filename){
         const frontMatterRegex = /^---\n([\s\S]*?)\n---/;
         const match = frontMatterRegex.exec(draft.content);
-
         if (match) {
           const frontMatterContent = match[1];
           const json_data = yaml.load(frontMatterContent)
           file_info.value = json_data
-          let matchResult = draft.content.match(/---[^-]*---(.*)/);
-          if (matchResult) {
-            editorData.value = matchResult[1];
-          }
+          let matchResult = draft.content.replace(/^---[^]*---/, '');
+          editorData.value = matchResult
           show_edit.value = true
           showSettings.value = true
           show_settings_edit.value = true
