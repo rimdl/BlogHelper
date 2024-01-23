@@ -122,7 +122,7 @@
                 <label class="sub_label">手动编辑：<span style="font-size: smaller">(注意：手动编辑不用点击保存按钮)</span></label>
               </el-col>
               <el-col :span="24">
-                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 10 }" v-model="front_matter" style="width: 100%"/>
+                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 8 }" v-model="front_matter" style="width: 100%"/>
               </el-col>
             </el-row>
           </el-col>
@@ -131,9 +131,9 @@
             <el-row>
               <el-col :span="24" style="text-align: right">
                 <el-button type="primary" round @click="saveFileInfo">保存</el-button>
-                <router-link to="/settings" style="text-decoration: none">
-                  <span style="font-weight: bold;font-size: smaller;color: #66ccff;margin-left: 1vw">添加更多选项</span>
-                </router-link>
+<!--                <router-link to="/settings" style="text-decoration: none">-->
+<!--                  <span style="font-weight: bold;font-size: smaller;color: #66ccff;margin-left: 1vw">添加更多选项</span>-->
+<!--                </router-link>-->
               </el-col>
             </el-row>
           </el-col>
