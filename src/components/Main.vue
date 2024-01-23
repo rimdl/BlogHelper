@@ -104,7 +104,7 @@
           <el-row>
             <el-col :span="10">
 <!--              <el-avatar :size="50" src="/images/edit_2.svg" style="background: blue" :fit="'cover'"/>-->
-              <img src="/images/edit_2.svg" style="background: white;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
+              <img src="/images/edit_2.svg" style="background: #008cff;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
             </el-col>
             <el-col :span="14" style="text-align: right">
               <label class="main_label">文章总数</label>
