@@ -19,7 +19,8 @@
         <table>
           <tr>
             <td style="width: 70px">
-              <el-avatar style="background: transparent" src="/images/github.svg" size="default"/>
+<!--              <el-avatar style="background: transparent" src="/images/github.svg" size="default"/>-->
+              <img style="background-size: cover;width: 50px;" src="/images/github.svg"/>
             </td>
             <td style="width: 90%;">
               <span class="settings_sub_label">仓库地址</span><br>
@@ -32,7 +33,7 @@
         <table>
           <tr>
             <td style="width: 70px">
-              <el-avatar style="background: transparent" src="/images/key.svg" size="default"/>
+              <img style="background-size: cover;width: 50px;" src="/images/key.svg"/>
             </td>
             <td style="width: 90%;">
               <span class="settings_sub_label">token</span><br>
@@ -45,7 +46,8 @@
         <table>
           <tr>
             <td style="width: 70px">
-              <el-avatar style="background: transparent" src="/images/branch.svg" size="default"/>
+<!--              <el-avatar style="background: transparent" src="/images/branch.svg" size="default"/>-->
+              <img style="background-size: cover;width: 50px;" src="/images/branch.svg"/>
             </td>
             <td style="width: 90%;">
               <span class="settings_sub_label">代码分支</span>
@@ -86,7 +88,8 @@
         <table>
           <tr>
             <td style="width: 70px">
-              <el-avatar style="background: transparent" src="/images/root.svg" size="default"/>
+<!--              <el-avatar style="background: transparent" src="/images/root.svg" size="default"/>-->
+              <img style="background-size: cover;width: 50px;" src="/images/root.svg"/>
             </td>
             <td style="width: 90%;">
               <span class="settings_sub_label">项目根目录</span>

@@ -58,7 +58,11 @@ watch(() => router.currentRoute.value, (newVal, oldVal) =>{
 })
 
 const get_tree = async () => {
-
+  ElNotification({
+    title: '提示',
+    message: '正在尝试获取文件列表',
+    type: 'info',
+  })
   if (!isPropertyValueEmpty(settingsStore.settings,'token')){
 
     let url = "https://api.github.com/repos/"+settingsStore.settings.sub_repo+"/git/trees/"+settingsStore.settings.branch

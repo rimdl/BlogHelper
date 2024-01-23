@@ -100,10 +100,11 @@
       </el-row>
 
       <el-row style="margin-top: 2vh">
-        <el-col :span="5" class="glass" style="border-radius: 10px;padding: 10px">
+        <el-col :span="5" class="glass bl" >
           <el-row>
             <el-col :span="10">
-              <el-avatar :size="50" src="/images/article.svg" style="background: white"/>
+<!--              <el-avatar :size="50" src="/images/edit_2.svg" style="background: blue" :fit="'cover'"/>-->
+              <img src="/images/edit_2.svg" style="background: white;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
             </el-col>
             <el-col :span="14" style="text-align: right">
               <label class="main_label">文章总数</label>
@@ -117,10 +118,11 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="5" :offset="1" class="glass" style="border-radius: 10px;padding: 10px">
+        <el-col :span="5" :offset="1" class="glass bl2" >
           <el-row>
             <el-col :span="10">
-              <el-avatar :size="50" src="/images/github.svg" style="background: white"/>
+<!--              <el-avatar :size="50" src="/images/github.svg" style="background: white"/>-->
+              <img src="/images/github.svg" style="background: white;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
             </el-col>
             <el-col :span="14" style="text-align: right">
               <label class="main_label">项目代码</label>
@@ -137,7 +139,7 @@
       </el-row>
 
       <el-row style="margin-top: 2vh">
-        <el-col :span="12" class="glass" style="padding: 10px;border-radius: 20px">
+        <el-col :span="11" class="glass" style="padding: 10px;border-radius: 20px">
           <el-row>
             <el-col :span="24">
               <el-row>
@@ -178,7 +180,7 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="11" :offset="1" class="glass" style="border-radius: 20px;padding: 10px">
+        <el-col :span="11" :offset="2" class="glass" style="border-radius: 20px;padding: 10px">
           <el-row>
             <el-col :span="24">
               <label class="main_label">草稿箱</label>
@@ -403,5 +405,43 @@ const deleteGit = async (sha,filename,e) => {
 .post:hover {
   background: whitesmoke;
   scale: 1.01;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bl{
+  border-radius: 10px;
+  padding: 10px;
+  background: rgb(70,255,185);
+  background: linear-gradient(90deg, rgba(70,255,185,1) 0%, rgba(48,255,245,1) 50%, rgba(157,135,255,1) 100%);
+  height: 100%;
+  animation: gradientBG 20s ease infinite;
+  background-size: 300% 300%;
+}
+
+.bl2{
+  border-radius: 10px;
+  padding: 10px;
+  background: rgb(70,255,185);
+  background: linear-gradient(90deg, rgba(70,255,185,1) 0%, rgba(48,255,245,1) 50%, rgba(157,135,255,1) 100%);
+  height: 100%;
+  animation: gradientBG 30s ease infinite;
+  background-size: 300% 300%;
+}
+.bl:hover{
+  transform: translateY(-3px);
+}
+.bl2:hover{
+  transform: translateY(-3px);
 }
 </style>
