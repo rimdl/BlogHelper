@@ -38,6 +38,10 @@ const router = useRouter();
 const globalProperties = getCurrentInstance().appContext.config.globalProperties;
 const myFetch = globalProperties.$myFetch;
 
+function isPropertyValueEmpty(obj, property) {
+  return obj[property] === undefined || obj[property] === null || (typeof obj[property] === 'string' && obj[property].trim() === '');
+}
+
 onBeforeMount(() => {
   if (localStorage.getItem("user_info")!== null){
     userStore.set_user_info(JSON.parse(localStorage.getItem("user_info")))
@@ -45,7 +49,7 @@ onBeforeMount(() => {
   if (localStorage.getItem("settings") !== null){
     settingsStore.set_settings(JSON.parse(localStorage.getItem("settings")))
   }
-  get_tree()
+  // get_tree()
 })
 watch(() => router.currentRoute.value, (newVal, oldVal) =>{
   if (newVal !== oldVal){
@@ -55,7 +59,7 @@ watch(() => router.currentRoute.value, (newVal, oldVal) =>{
 
 const get_tree = async () => {
 
-  if (settingsStore.settings.token){
+  if (!isPropertyValueEmpty(settingsStore.settings,'token')){
 
     let url = "https://api.github.com/repos/"+settingsStore.settings.sub_repo+"/git/trees/"+settingsStore.settings.branch
     let headers = {
@@ -76,7 +80,7 @@ const get_tree = async () => {
         treeStore.set_tree_info(tree)
         ElNotification({
           title: '成功',
-          message: '成功获取文件树',
+          message: '成功获取文件列表',
           type: 'success',
         })
       } catch (error) {

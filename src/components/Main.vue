@@ -145,7 +145,7 @@
                   <label class="main_label">已发布文章</label>
                 </el-col>
                 <el-col :span="12" style="text-align: right">
-                  <el-button @click="getPostFile" round size="small">刷新</el-button>
+                  <el-button @click="get_tree" round size="small">刷新</el-button>
                 </el-col>
               </el-row>
             </el-col>
@@ -239,9 +239,13 @@ const errorHandler = () => true
 const fileList = ref([])
 const drafts = ref([])
 
+function isPropertyValueEmpty(obj, property) {
+  return obj[property] === undefined || obj[property] === null || (typeof obj[property] === 'string' && obj[property].trim() === '');
+}
+
 const get_tree = inject("get_tree")
 onMounted(() => {
-  if (settingsStore.settings.token) {
+  if (!isPropertyValueEmpty(settingsStore.settings,'token')) {
     get_repository_info()
     getPostFile()
     getDrafts()
@@ -251,7 +255,7 @@ onMounted(() => {
 
 
 const reget_repo = async (e) => {
-  if (settingsStore.settings.token) {
+  if (!isPropertyValueEmpty(settingsStore.settings,'token')) {
     await get_repository_info()
     party.confetti(e)
   } else {
@@ -264,7 +268,7 @@ const reget_repo = async (e) => {
   }
 }
 const get_repository_info = async () => {
-  if (settingsStore.settings.token) {
+  if (!isPropertyValueEmpty(settingsStore.settings,'token')) {
     let url = "https://api.github.com/repos/" + settingsStore.settings.sub_repo;
     let headers = {
       'Accept': 'application/vnd.github+json',
@@ -286,7 +290,7 @@ const extractNodesByPath = inject("extractNodesByPath")
 const getPostFile = () => {
   let data = treeStore.tree_info
   let root_path = ""
-  if (settingsStore.settings.root.path){
+  if (settingsStore.settings.root.path.length !== 1){
     root_path = settingsStore.settings.root.path
   }
   let startPath = root_path + "/source/_posts/";
@@ -330,7 +334,7 @@ const deleteGit = async (sha,filename,e) => {
     type: 'info',
   })
   let root_path = ""
-  if (settingsStore.settings.root.path){
+  if (settingsStore.settings.root.path.length !== 1){
     root_path = settingsStore.settings.root.path
   }
   let url = "https://api.github.com/repos/" + settingsStore.settings.sub_repo+"/contents"+root_path+"/source/_posts/"+ filename;

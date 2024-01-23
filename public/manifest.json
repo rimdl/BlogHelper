@@ -1,0 +1,17 @@
+{
+  "name"              : "BlogHelper",
+  "short_name"        : "PWA",
+  "description"       : "hexo博客助手",
+  "start_url"         : "/",
+  "display"           : "standalone",
+  "orientation"       : "any",
+  "background_color"  : "#ACE",
+  "theme_color"       : "#ACE",
+  "icons": [
+    {
+      "src"           : "/images/logo_radius.png",
+      "sizes"         : "1024x1024",
+      "type"          : "image/png"
+    }
+  ]
+}
