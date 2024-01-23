@@ -1,6 +1,6 @@
-<p style="text-align: center">
-<img src="https://raw.gitmirror.com/xinsi-tecool/mypic/main/67eba15c-21c1-48a8-ab36-d3ffcd56fa72.png" style="width: 50%" alt="">
-</p>
+<div align="center">
+<img src="public/images/bloghelper.svg" style="width: 50%" alt="">
+</div>
 
 ---
 # BlogHelper
