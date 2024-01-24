@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside><Side/></el-aside>
+    <el-aside style="border-radius: 20px;"><Side/></el-aside>
     <el-container>
       <el-header><Nav /></el-header>
       <el-main>

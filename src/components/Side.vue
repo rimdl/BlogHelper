@@ -1,23 +1,11 @@
 <template>
-  <el-row  class="side">
-    <el-col :span="24" class="side glass">
-      <el-row>
+  <el-row>
+    <el-col :span="24" class="side">
+      <el-row style="background: transparent">
         <el-col :span="24" class="logo">
           <el-avatar :size="50" :src="'/images/logo.png'"/>
           <br>
           <img src="/images/bloghelper.svg" alt="" style="width: 70%">
-<!--          <span style="font-weight: bolder">-->
-<!--            <span style="color:#fd7272">B</span>-->
-<!--            <span style="color:#ff9900">l</span>-->
-<!--            <span style="color:#ffcc00">o</span>-->
-<!--            <span style="color:#a1f948">g</span>-->
-<!--            <span style="color:#00ffcc">H</span>-->
-<!--            <span style="color:#66ccff">e</span>-->
-<!--            <span style="color:#d966ff">l</span>-->
-<!--            <span style="color:#fd7272">p</span>-->
-<!--            <span style="color:#ff9900">e</span>-->
-<!--            <span style="color:#ffcc00">r</span>-->
-<!--          </span>-->
         </el-col>
       </el-row>
       <el-row>
@@ -72,6 +60,7 @@ import {ref} from "vue";
 .side {
   border-radius: 10px;
   height: 98vh;
+  background: white;
 }
 
 .logo {

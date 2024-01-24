@@ -617,7 +617,7 @@ const deleteDraft = (filename) => {
   cursor: pointer;
 }
 .myBtn:hover{
-  scale: 0.99;
+  transform: translateY(-1px);
   background: whitesmoke;
 }
 .publish_btn{

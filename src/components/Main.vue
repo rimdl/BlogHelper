@@ -100,38 +100,40 @@
       </el-row>
 
       <el-row style="margin-top: 2vh">
-        <el-col :span="5" class="glass bl" >
+        <el-col :span="5" class="glass bl">
           <el-row>
             <el-col :span="10">
-<!--              <el-avatar :size="50" src="/images/edit_2.svg" style="background: blue" :fit="'cover'"/>-->
-              <img src="/images/edit_2.svg" style="background: #008cff;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
+              <!--              <el-avatar :size="50" src="/images/edit_2.svg" style="background: blue" :fit="'cover'"/>-->
+              <img src="/images/edit_2.svg"
+                   style="background: #008cff;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
             </el-col>
             <el-col :span="14" style="text-align: right">
-              <label class="main_label">文章总数</label>
+              <label class="bl_main_label">文章总数</label>
               <br>
-              <span style="font-size: x-large;color: black;font-weight: bolder">{{ fileList.length }}</span>
+              <span style="font-size: x-large;color: white;font-weight: bolder">{{ fileList.length }}</span>
             </el-col>
-            <el-col :span="24">
+            <el-col :span="24" style="text-align: center">
               <router-link to="/posts" style="text-decoration: none">
-                <label class="sub_label" style="cursor: pointer">去写作>>></label>
+                <label class="bl_sub_label" style="cursor: pointer">去写作>>></label>
               </router-link>
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="5" :offset="1" class="glass bl2" >
+        <el-col :span="5" :offset="1" class="glass bl2">
           <el-row>
             <el-col :span="10">
-<!--              <el-avatar :size="50" src="/images/github.svg" style="background: white"/>-->
-              <img src="/images/github.svg" style="background: white;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
+              <!--              <el-avatar :size="50" src="/images/github.svg" style="background: white"/>-->
+              <img src="/images/github.svg"
+                   style="background: white;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
             </el-col>
             <el-col :span="14" style="text-align: right">
-              <label class="main_label">项目代码</label>
+              <label class="bl_main_label">项目代码</label>
               <br>
-              <span style="font-size: x-small;color: black;font-weight: bolder">查看本项目代码</span>
+              <span class="bl_sub_label">查看本项目代码</span>
             </el-col>
-            <el-col :span="24">
+            <el-col :span="24" style="text-align: center">
               <a href="https://github.com/rimdl/BlogHelper" style="text-decoration: none" target="_blank">
-                <label class="sub_label" style="cursor: pointer">去github>>></label>
+                <label class="bl_sub_label" style="cursor: pointer">去github>>></label>
               </a>
             </el-col>
           </el-row>
@@ -159,22 +161,26 @@
             <el-col :span="24" v-for="(item,index) in  fileList" :key="item.value.url" class="post">
               <el-row>
                 <el-col :span="20">
-                  <span class="main_label">{{ item.label.substring(item.label.indexOf('_post') + 7) }}</span>
+                  <el-tag round effect="dark">{{ index + 1 }}</el-tag>
+                  <span class="main_label">&nbsp;&nbsp;{{ item.label.substring(item.label.indexOf('_post') + 7) }}</span>
                 </el-col>
                 <el-col :span="4" style="text-align: right">
                   <el-tooltip content="编辑" placement="top" effect="light">
-                    <router-link :to="'/posts?filename='+item.label.substring(item.label.indexOf('_post') + 7)+'&url='+item.value.url">
+                    <router-link
+                        :to="'/posts?filename='+item.label.substring(item.label.indexOf('_post') + 7)+'&url='+item.value.url">
                       <el-avatar :size="30" style="background: white" src="/images/edit.svg"/>
                     </router-link>
                   </el-tooltip>
-                  <el-tooltip content="删除" placement="top" effect="light">
 
-                    <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？" @confirm="deleteGit(item.sha,item.label.substring(item.label.indexOf('_post') + 7),$event)">
-                      <template #reference>
+                  <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
+                                 @confirm="deleteGit(item.sha,item.label.substring(item.label.indexOf('_post') + 7),$event)">
+                    <template #reference>
+                      <el-tooltip content="删除" placement="top" effect="light">
                         <el-avatar :size="30" style="background: white;margin-left: 1vw" src="/images/delete.svg"/>
-                      </template>
-                    </el-popconfirm>
-                  </el-tooltip>
+                      </el-tooltip>
+                    </template>
+                  </el-popconfirm>
+
                 </el-col>
               </el-row>
             </el-col>
@@ -193,7 +199,8 @@
             <el-col :span="24" v-for="(item,index) in  drafts" :key="index" class="post">
               <el-row>
                 <el-col :span="20">
-                  <span class="main_label">{{ item.filename }}</span>
+                  <el-tag round effect="dark">{{ index + 1 }}</el-tag>
+                  <span class="main_label">&nbsp;&nbsp;{{ item.filename }}</span>
                 </el-col>
                 <el-col :span="4" style="text-align: right">
                   <el-tooltip content="编辑" placement="top" effect="light">
@@ -201,14 +208,16 @@
                       <el-avatar :size="30" style="background: white" src="/images/edit.svg"/>
                     </router-link>
                   </el-tooltip>
-                  <el-tooltip content="删除" placement="top" effect="light">
-                    <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？" @confirm="deleteDraft(item.filename)">
+
+                    <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
+                                   @confirm="deleteDraft(item.filename)">
                       <template #reference>
+                        <el-tooltip content="删除" placement="top" effect="light">
                         <el-avatar :size="30" style="background: white;margin-left: 1vw" src="/images/delete.svg"/>
+                        </el-tooltip>
                       </template>
                     </el-popconfirm>
 
-                  </el-tooltip>
                 </el-col>
               </el-row>
             </el-col>
@@ -247,7 +256,7 @@ function isPropertyValueEmpty(obj, property) {
 
 const get_tree = inject("get_tree")
 onMounted(() => {
-  if (!isPropertyValueEmpty(settingsStore.settings,'token')) {
+  if (!isPropertyValueEmpty(settingsStore.settings, 'token')) {
     get_repository_info()
     getPostFile()
     getDrafts()
@@ -257,7 +266,7 @@ onMounted(() => {
 
 
 const reget_repo = async (e) => {
-  if (!isPropertyValueEmpty(settingsStore.settings,'token')) {
+  if (!isPropertyValueEmpty(settingsStore.settings, 'token')) {
     await get_repository_info()
     party.confetti(e)
   } else {
@@ -270,7 +279,7 @@ const reget_repo = async (e) => {
   }
 }
 const get_repository_info = async () => {
-  if (!isPropertyValueEmpty(settingsStore.settings,'token')) {
+  if (!isPropertyValueEmpty(settingsStore.settings, 'token')) {
     let url = "https://api.github.com/repos/" + settingsStore.settings.sub_repo;
     let headers = {
       'Accept': 'application/vnd.github+json',
@@ -292,7 +301,7 @@ const extractNodesByPath = inject("extractNodesByPath")
 const getPostFile = () => {
   let data = treeStore.tree_info
   let root_path = ""
-  if (settingsStore.settings.root.path.length !== 1){
+  if (settingsStore.settings.root.path.length !== 1) {
     root_path = settingsStore.settings.root.path
   }
   let startPath = root_path + "/source/_posts/";
@@ -315,7 +324,7 @@ watch(() => treeStore.tree_info, (newVal, oldVal) => {
 const deleteDraft = (filename) => {
   const drafts = JSON.parse(localStorage.getItem("drafts"))
   for (let i = 0; i < drafts.length; i++) {
-    if (drafts[i].filename === filename){
+    if (drafts[i].filename === filename) {
       drafts.splice(i, 1);
       ElNotification({
         title: '提示',
@@ -329,25 +338,29 @@ const deleteDraft = (filename) => {
   }
 }
 
-const deleteGit = async (sha,filename,e) => {
+const deleteGit = async (sha, filename, e) => {
   ElNotification({
     title: '提示',
     message: '正在尝试删除',
     type: 'info',
   })
   let root_path = ""
-  if (settingsStore.settings.root.path.length !== 1){
+  if (settingsStore.settings.root.path.length !== 1) {
     root_path = settingsStore.settings.root.path
   }
-  let url = "https://api.github.com/repos/" + settingsStore.settings.sub_repo+"/contents"+root_path+"/source/_posts/"+ filename;
+  let url = "https://api.github.com/repos/" + settingsStore.settings.sub_repo + "/contents" + root_path + "/source/_posts/" + filename;
   let headers = {
     'Accept': 'application/vnd.github+json',
     'Authorization': 'Bearer ' + settingsStore.settings.token,
     'X-GitHub-Api-Version': '2022-11-28'
   }
-  let body = {"message":"delete file","committer":{"name":userStore.user_info.name,"email":userStore.user_info.email},"sha":sha}
-  const data = await myFetch.deleteData(url,headers,body)
-  if (data.error === null){
+  let body = {
+    "message": "delete file",
+    "committer": {"name": userStore.user_info.name, "email": userStore.user_info.email},
+    "sha": sha
+  }
+  const data = await myFetch.deleteData(url, headers, body)
+  if (data.error === null) {
     getPostFile()
     party.confetti(e)
     fileList.value = fileList.value.filter(item => item.sha !== sha)
@@ -356,8 +369,7 @@ const deleteGit = async (sha,filename,e) => {
       message: '删除成功啦',
       type: 'success',
     })
-  }
-  else {
+  } else {
     ElNotification({
       title: '出错了',
       message: data.error,
@@ -381,7 +393,7 @@ const deleteGit = async (sha,filename,e) => {
 }
 
 .preview_post {
-  height: 25vh;
+  max-height: 25vh;
   overflow-y: scroll;
   padding: 10px;
 }
@@ -404,7 +416,7 @@ const deleteGit = async (sha,filename,e) => {
 
 .post:hover {
   background: whitesmoke;
-  scale: 1.01;
+  transform: translateY(-1px);
 }
 
 @keyframes gradientBG {
@@ -419,29 +431,38 @@ const deleteGit = async (sha,filename,e) => {
   }
 }
 
-.bl{
+.bl {
+  border: none;
   border-radius: 10px;
   padding: 10px;
-  background: rgb(70,255,185);
-  background: linear-gradient(90deg, rgba(70,255,185,1) 0%, rgba(48,255,245,1) 50%, rgba(157,135,255,1) 100%);
-  height: 100%;
-  animation: gradientBG 20s ease infinite;
-  background-size: 300% 300%;
+  background: rgb(99, 230, 179);
+  background: linear-gradient(90deg, rgba(99, 230, 179, 1) 0%, rgba(68, 228, 141, 1) 50%, rgba(44, 225, 105, 1) 100%);
 }
 
-.bl2{
+.bl2 {
+  border: none;
   border-radius: 10px;
   padding: 10px;
-  background: rgb(70,255,185);
-  background: linear-gradient(90deg, rgba(70,255,185,1) 0%, rgba(48,255,245,1) 50%, rgba(157,135,255,1) 100%);
-  height: 100%;
-  animation: gradientBG 30s ease infinite;
-  background-size: 300% 300%;
+  background: rgb(52, 181, 231);
+  background: linear-gradient(90deg, rgba(52, 181, 231, 1) 0%, rgba(49, 158, 228, 1) 50%, rgba(44, 134, 225, 1) 100%);
 }
-.bl:hover{
+
+.bl:hover {
   transform: translateY(-3px);
 }
-.bl2:hover{
+
+.bl2:hover {
   transform: translateY(-3px);
+}
+
+.bl_main_label {
+  color: white;
+  font-weight: bolder;
+}
+
+.bl_sub_label {
+  color: white;
+  font-weight: bolder;
+  font-size: smaller;
 }
 </style>
