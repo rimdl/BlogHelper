@@ -61,8 +61,14 @@
         <el-col :span="11" :offset="2" class="glass" style="border-radius: 20px;padding: 10px">
           <el-row>
             <el-col :span="24">
-              <span class="main_label">当前仓库信息</span>
-              <el-button @click="reget_repo($event)" round size="small" style="margin-left: 3vw">点击刷新</el-button>
+              <el-row>
+                <el-col :span="12">
+                  <span class="main_label">当前仓库信息</span>
+                </el-col>
+                <el-col :span="12" style="text-align: right">
+                  <img @click="reget_repo($event)" src="/images/refresh.svg" class="refresh_btn" style="width: 20px" alt="">
+                </el-col>
+              </el-row>
             </el-col>
             <el-col :span="24">
               <el-divider border-style="dashed"/>
@@ -149,7 +155,8 @@
                   <label class="main_label">已发布文章</label>
                 </el-col>
                 <el-col :span="12" style="text-align: right">
-                  <el-button @click="get_tree" round size="small">刷新</el-button>
+<!--                  <el-button @click="get_tree" round size="small">刷新</el-button>-->
+                  <img @click="get_tree" src="/images/refresh.svg" class="refresh_btn" style="width: 20px" alt="">
                 </el-col>
               </el-row>
             </el-col>
@@ -464,5 +471,14 @@ const deleteGit = async (sha, filename, e) => {
   color: white;
   font-weight: bolder;
   font-size: smaller;
+}
+
+.refresh_btn{
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.refresh_btn:hover{
+  transform: rotate(180deg);
 }
 </style>

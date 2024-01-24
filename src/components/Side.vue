@@ -87,7 +87,11 @@ import {ref} from "vue";
 }
 .icon_style{
   width: 20px;
-  height: 20px
+  height: 20px;
+  transition: 0.5s;
+}
+.icon_style:hover{
+  transform: rotate(90deg);
 }
 .text_style{
   vertical-align: sub;

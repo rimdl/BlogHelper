@@ -24,7 +24,7 @@
             <span style="float: left;line-height: 20px;margin-left: 10px;font-weight: bolder">{{ userStore.user_info.name }}</span>
             </a>
             <router-link to="/settings">
-              <el-avatar :size="20" src="/images/settings_2.svg" style="float: left;background: transparent;margin-left: 20px"/>
+              <el-avatar :size="20" src="/images/settings_2.svg" class="nav_settings_icon" style="float: left;background: transparent;margin-left: 20px"/>
             </router-link>
           </div>
         </template>
@@ -58,5 +58,12 @@ const errorHandler = () => true
   border-radius: 10px;
   outline: none;
   padding: 5px;
+}
+
+.nav_settings_icon{
+  transition: 1s;
+}
+.nav_settings_icon:hover{
+  transform: rotate(180deg);
 }
 </style>
