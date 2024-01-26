@@ -196,7 +196,12 @@
         <el-col :span="11" :offset="2" class="glass" style="border-radius: 20px;padding: 10px">
           <el-row>
             <el-col :span="24">
-              <label class="main_label">草稿箱</label>
+              <el-row>
+                <el-col :span="18">
+                  <label class="main_label">草稿箱</label>
+                </el-col>
+              </el-row>
+
             </el-col>
             <el-col :span="24">
               <el-divider border-style="dashed"/>
@@ -480,5 +485,10 @@ const deleteGit = async (sha, filename, e) => {
 
 .refresh_btn:hover{
   transform: rotate(180deg);
+}
+
+.test{
+  background-image: url("/images/test.svg");
+  background-size: 100% 9vh;
 }
 </style>
