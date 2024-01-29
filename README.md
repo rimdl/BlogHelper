@@ -24,6 +24,17 @@ npm install
 npm run dev
 ```
 
+- 使用时请先到设置界面中添加账户信息，并添加一个`key`为`filename`的front-matter配置项目，否则无法进行文章编写。
+```yaml
+# 显示名称
+随意
+# key
+filename
+# 类型
+文本
+# 默认值
+可不填
+```
 ## 说明
 
 - **本项目中使用的github账号相关内容存储在localstorage中，所以在清除浏览器缓存或其他有可能导致localstorage丢失的情况下，你的账号信息将会丢失，请自行备份。**
