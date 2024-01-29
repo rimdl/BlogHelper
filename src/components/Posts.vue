@@ -379,6 +379,12 @@ onMounted(async () =>{
       file_info.value.filename =  query.filename.slice(0, -3)
     }
   }
+  for (let i = 0; i < local_front_matter.value.length; i++) {
+    if (!isPropertyValueEmpty(local_front_matter.value[i],"default")){
+      if (!file_info.value[local_front_matter.value[i].key])
+      file_info.value[local_front_matter.value[i].key] = local_front_matter.value[i].default
+    }
+  }
 })
 
 const newPost = () => {
