@@ -3,7 +3,17 @@
   <el-col :span="24">
     <el-row>
       <el-col :span="24">
-        <label class="settings_label">设置</label>
+        <el-row>
+          <el-col :span="12">
+            <label class="settings_label">设置</label>
+          </el-col>
+          <el-col :span="12" style="text-align: right;display: flex;justify-content: end">
+            <el-button type="primary" round @click="exportSettings">导出</el-button>
+            <el-upload :show-file-list="false" :http-request="importSettings"  multiple :limit="1">
+              <el-button round>导入</el-button>
+            </el-upload>
+          </el-col>
+        </el-row>
       </el-col>
       <el-col :span="24">
         <el-divider border-style="dashed"/>
@@ -422,6 +432,96 @@ const handleDelete = (index,row) => {
   })
 }
 
+const exportSettings = () => {
+    let settings = JSON.parse(localStorage.getItem("settings"))
+  let user_info = JSON.parse(localStorage.getItem("user_info"))
+  let front_matter = JSON.parse(localStorage.getItem("front_matter"))
+  let sys_config = {"settings":settings,"user_info":user_info,"front_matter":front_matter}
+  let blob = new Blob([JSON.stringify(sys_config)], { type: "application/json;charset=utf-8" });
+
+  // 创建一个指向Blob对象的URL
+  let url = URL.createObjectURL(blob);
+
+  // 创建隐藏的a标签
+  let link = document.createElement('a');
+  link.style.display = 'none';
+  link.href = url;
+  link.download = 'bloghelper_sys_config.json'; // 指定下载的文件名
+  document.body.appendChild(link);
+
+  // 触发点击下载
+  link.click();
+  // 清理资源
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+    document.body.removeChild(link);
+  }, 0);
+}
+function isPropertyValueEmpty(obj, property) {
+  return obj[property] === undefined || obj[property] === null || (typeof obj[property] === 'string' && obj[property].trim() === '');
+}
+const importSettings =(content) => {
+  console.log(1)
+  let fileReader = new FileReader();
+  fileReader.onload = function(event) {
+    // 当文件读取完成时
+    const content = event.target?.result;
+    let sys_config = JSON.parse(content);
+    if (!isPropertyValueEmpty(sys_config, 'settings')){
+      localStorage.setItem("settings",JSON.stringify(sys_config.settings))
+        ElNotification({
+          title: '成功',
+          message: '账户信息获取成功',
+          type: 'success',
+        })
+    }
+    else {
+      ElNotification({
+        title: '提示',
+        message: '未获取到账户信息，请核对',
+        type: 'info',
+      })
+    }
+    if (!isPropertyValueEmpty(sys_config, 'user_info')){
+      localStorage.setItem("user_info",JSON.stringify(sys_config.user_info))
+      ElNotification({
+        title: '成功',
+        message: '用户信息获取成功',
+        type: 'success',
+      })
+    }else {
+      ElNotification({
+        title: '提示',
+        message: '未获取到用户信息，请核对',
+        type: 'info',
+      })
+    }
+    if (!isPropertyValueEmpty(sys_config, 'front_matter')){
+      localStorage.setItem("front_matter",JSON.stringify(sys_config.front_matter))
+      ElNotification({
+        title: '成功',
+        message: 'front_matter信息获取成功',
+        type: 'success',
+      })
+    }else {
+      ElNotification({
+        title: '提示',
+        message: '未获取到front_matter信息，请核对',
+        type: 'info',
+      })
+    }
+  };
+  fileReader.onerror = function(error) {
+    console.error('Error reading file:', error);
+  };
+  fileReader.readAsText(content.file);
+  ElNotification({
+    title: '提示',
+    message: '导入完成，请刷新页面',
+    type: 'info',
+  })
+}
+
 </script>
 
 <style scoped>
@@ -462,16 +562,5 @@ const handleDelete = (index,row) => {
 .flex_table{
   flex-grow: 1;
 }
-.add_col{
-  margin-top: 2vh;
-  padding: 10px;
-  border-radius: 20px;
-  background: rgba(0, 140, 255,0.1);
-}
 
-.test{
-  opacity: 0;
-  background: #008cff;
-  border-radius: 40px;
-}
 </style>
