@@ -45,73 +45,17 @@
           <el-col :span="24">
             <el-divider border-style="dashed"/>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" v-for="(item,index) in local_front_matter" style="margin-top: 1vh">
             <el-row>
               <el-col :span="4">
-                <label class="sub_label">文件名：</label>
+                <label class="sub_label">{{item.label}}</label>
               </el-col>
               <el-col :span="20">
-                <el-input type="text" v-model="file_info.filename" style="width: 100%"/>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24" style="margin-top: 1vh">
-            <el-row>
-              <el-col :span="4">
-                <label class="sub_label">标题：</label>
-              </el-col>
-              <el-col :span="20">
-                <el-input type="text" v-model="file_info.title" style="width: 100%"/>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24" style="margin-top: 1vh">
-            <el-row>
-              <el-col :span="4">
-                <label class="sub_label">更新日期：</label>
-              </el-col>
-              <el-col :span="20">
-                <el-date-picker value-format="YYYY-MM-DD HH:mm:ss" v-model="file_info.updated" style="width: 100%" type="datetime" placeholder="选择更新日期"/>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24" style="margin-top: 1vh">
-            <el-row>
-              <el-col :span="4">
-                <label class="sub_label">发布日期：</label>
-              </el-col>
-              <el-col :span="20">
-                <el-date-picker value-format="YYYY-MM-DD HH:mm:ss" v-model="file_info.date" style="width: 100%" type="datetime" placeholder="选择发布日期"/>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24" style="margin-top: 1vh">
-            <el-row>
-              <el-col :span="4">
-                <label class="sub_label">分类：</label>
-              </el-col>
-              <el-col :span="20">
-                <el-input type="text" v-model="file_info.categories" style="width: 100%"/>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24" style="margin-top: 1vh">
-            <el-row>
-              <el-col :span="4">
-                <label class="sub_label">标签：</label>
-              </el-col>
-              <el-col :span="20">
-                <el-input type="text" v-model="file_info.tags" style="width: 100%" placeholder="多个标签用英文逗号隔开"/>
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="24" style="margin-top: 1vh">
-            <el-row>
-              <el-col :span="4">
-                <label class="sub_label">头部图片：</label>
-              </el-col>
-              <el-col :span="20">
-                <el-input type="text" v-model="file_info.cover" style="width: 100%"/>
+                <el-input v-if="item.type === 'text'" type="text" v-model="file_info[item.key]" style="width: 100%"/>
+                <el-input v-if="item.type === 'num'" type="number" v-model="file_info[item.key]" style="width: 100%"/>
+                <el-input v-if="item.type === 'arr'" type="text" v-model="file_info[item.key]" style="width: 100%"/>
+                <el-switch v-if="item.type === 'bool'" v-model="file_info[item.key]"/>
+                <el-date-picker v-if="item.type === 'datetime'" value-format="YYYY-MM-DD HH:mm:ss" v-model="file_info[item.key]" style="width: 100%" type="datetime" :placeholder="item.label"/>
               </el-col>
             </el-row>
           </el-col>
@@ -131,9 +75,9 @@
             <el-row>
               <el-col :span="24" style="text-align: right">
                 <el-button type="primary" round @click="saveFileInfo">保存</el-button>
-<!--                <router-link to="/settings" style="text-decoration: none">-->
-<!--                  <span style="font-weight: bold;font-size: smaller;color: #66ccff;margin-left: 1vw">添加更多选项</span>-->
-<!--                </router-link>-->
+                <router-link to="/settings" style="text-decoration: none">
+                  <span style="font-weight: bold;font-size: smaller;color: #66ccff;margin-left: 1vw">添加更多选项</span>
+                </router-link>
               </el-col>
             </el-row>
           </el-col>
@@ -378,7 +322,10 @@ const myFetch = globalProperties.$myFetch;
 
 const sha = ref('')
 
+const local_front_matter = ref({})
+
 onMounted(async () =>{
+  local_front_matter.value = JSON.parse(localStorage.getItem("front_matter"))
   if (query.filename && !query.url){
     const drafts = JSON.parse(localStorage.getItem("drafts"))
     for (const draft of drafts) {

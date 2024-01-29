@@ -10,7 +10,7 @@
       </el-col>
     </el-row>
   </el-col>
-  <el-col :span="12">
+  <el-col :span="24">
     <el-row>
       <el-col :span="24" style="text-align: center">
         <label class="settings_sub_label">账户设置</label>
@@ -76,7 +76,10 @@
       </el-col>
     </el-row>
   </el-col>
-  <el-col :span="12">
+  <el-col :span="24">
+    <el-divider border-style="dashed"/>
+  </el-col>
+  <el-col :span="24">
     <el-row>
       <el-col :span="24" style="text-align: center">
         <label class="settings_sub_label" >其他设置</label>
@@ -102,15 +105,79 @@
           </tr>
         </table>
       </el-col>
+      <el-col :span="24" v-if="settingsStore.settings.token" style="margin-top: 2vh">
+        <el-row>
+          <el-col :span="24" class="flex_other">
+            <div class="flex_table">
+              <img style="background-size: cover;width: 50px;" src="/images/table.svg"/>
+            </div>
+            <div style="margin-left: 1vw" class="flex_table">
+              <span class="settings_sub_label">Front-Matter设置</span>
+              <el-button style="margin-left: 1vw" size="small" round type="primary" @click="show_add = !show_add">添加</el-button>
+              <br>
+
+
+              <el-table :data="frontMatters" :height="250">
+                <el-table-column prop="label" label="显示名称" />
+                <el-table-column prop="key" label="key" />
+                <el-table-column prop="type" label="类型" />
+                <el-table-column prop="default" label="默认值" />
+                <el-table-column label="操作">
+                  <template #default="scope">
+                    <el-button size="small" round @click="handleEdit(scope.$index, scope.row)"
+                    >编辑</el-button
+                    >
+                    <el-popconfirm title="确定删除吗?" confirm-button-text="确定" cancel-button-text="取消" @confirm="handleDelete(scope.$index, scope.row)">
+                      <template #reference>
+                        <el-button size="small" type="danger" round>删除</el-button>
+                      </template>
+                    </el-popconfirm>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-col>
+        </el-row>
+      </el-col>
     </el-row>
   </el-col>
+    <el-drawer v-model="show_add" title="添加Front-Matter项目" z-index="9999" style="border-radius: 20px" :modal="false" :with-header="true">
+      <span class="settings_sub_label">显示名称</span><br>
+      <input type="text" v-model="frontMatter.label" placeholder="请输入" class="input_style"/>
+      <br>
+      <span class="settings_sub_label">key</span><br>
+      <input type="text" v-model="frontMatter.key" placeholder="请输入" class="input_style"/>
+      <br>
+      <span class="settings_sub_label">类型</span><br>
+      <el-select v-model="frontMatter.type" class="m-2" placeholder="请选择" style="width: 240px">
+        <el-option key="text" label="文本" value="text"/>
+        <el-option key="num" label="数字" value="num"/>
+        <el-option key="bool" label="布尔" value="bool"/>
+        <el-option key="arr" label="数组" value="arr"/>
+        <el-option key="datetime" label="日期" value="datetime"/>
+      </el-select>
+      <br>
+      <div v-if="frontMatter.type">
+        <span class="settings_sub_label">默认值<small>(不输入则不设置)</small></span><br>
+        <input v-if="frontMatter.type === 'text'" type="text" v-model="frontMatter.default" placeholder="请输入text" class="input_style"/>
+        <input v-if="frontMatter.type === 'num'" type="number" v-model="frontMatter.default" placeholder="请输入text" class="input_style"/>
+        <el-switch v-if="frontMatter.type === 'bool'" v-model="frontMatter.default" />
+        <input v-if="frontMatter.type === 'arr'" type="text" v-model="frontMatter.default" placeholder="多个值请使用英文逗号隔开" class="input_style"/>
+        <el-date-picker v-if="frontMatter.type === 'datetime'" v-model="frontMatter.default" type="datetime" placeholder="Select date and time"/>
+      </div>
+      <hr>
+      <el-button style="width: 100%;" v-if="frontMatter.key" @click="save_front_matter">保存</el-button>
+      <br>
+      <br>
+      <el-button style="width: 100%;" @click="show_add = !show_add" type="warning">关闭</el-button>
+    </el-drawer>
 </el-row>
 </template>
 
 <script setup>
 import { useSettingsStore } from '../stores/settingsStore'
 import { useUserStore } from '../stores/userStore'
-import {getCurrentInstance, onBeforeMount, ref, watch,inject} from "vue";
+import {getCurrentInstance, onBeforeMount, ref, watch, inject, onMounted} from "vue";
 import party from "party-js";
 import {useTreeStore} from "../stores/treeStore.js";
 import {ElNotification} from "element-plus";
@@ -131,6 +198,11 @@ const cascader_prop = {
   checkStrictly: true,
   emitPath: false
 }
+
+const show_add = ref(false)
+const selected_value = ref('')
+const frontMatter = ref({})
+const frontMatters = ref([])
 
 const settingsStore = useSettingsStore()
 const userStore = useUserStore()
@@ -208,24 +280,33 @@ watch([() => repo.value,()=>treeStore.tree_info], ([newVal, newVal2],[oldVal,old
 })
 
 const save_settings = (e) => {
-  let settings = {
-    repo: repo.value,
-    token: token.value,
-    branch: branch.value,
-    branches: branches.value,
-    sub_repo: sub_repo.value,
-    root : {'path':'','url':''}
-  }
-  localStorage.setItem("settings",JSON.stringify(settings))
-  settingsStore.set_settings(settings)
-  get_user_info()
-  party.confetti(e)
-  ElMessageBox.alert('接下来去设置一下其他内容吧', '成功', {
-    confirmButtonText: '好的',
-    callback: () => {
+  if (repo.value && token.value && branch.value){
+    let settings = {
+      repo: repo.value,
+      token: token.value,
+      branch: branch.value,
+      branches: branches.value,
+      sub_repo: sub_repo.value,
+      root : {'path':'','url':''}
+    }
+    localStorage.setItem("settings",JSON.stringify(settings))
+    settingsStore.set_settings(settings)
+    get_user_info()
+    party.confetti(e)
+    ElMessageBox.alert('接下来去设置一下其他内容吧', '成功', {
+      confirmButtonText: '好的',
+      callback: () => {
 
-    },
-  })
+      },
+    })
+  }
+  else {
+    ElNotification({
+      title: '错误',
+      message: '请完整填写仓库地址、token及分支，之后再点击',
+      type: 'error',
+    })
+  }
 }
 
 const get_user_info = async () => {
@@ -280,6 +361,67 @@ function addDisableProperty(node) {
   }
 }
 
+onMounted(() => {
+  let front_matter = localStorage.getItem("front_matter")
+  if (front_matter !== null){
+    frontMatters.value = JSON.parse(front_matter)
+  }
+})
+
+const save_front_matter = () => {
+  if (frontMatter.value.id){
+    let front_matter = JSON.parse(localStorage.getItem("front_matter"))
+    front_matter = front_matter.filter(front_matter => front_matter.id !== frontMatter.value.id)
+    console.log(front_matter)
+    let data = frontMatter.value
+    front_matter.push(data)
+    localStorage.setItem("front_matter",JSON.stringify(front_matter))
+    ElNotification({
+      title: '成功',
+      message: '修改成功',
+      type: 'success',
+    })
+  }
+  else {
+    frontMatter.value.id = Date.now()
+    let front_matter = JSON.parse(localStorage.getItem("front_matter"))
+    let arr = []
+    if (frontMatter.value.type === "arr" && frontMatter.value.default){
+      arr = frontMatter.value.default.split(',')
+      frontMatter.value.default = arr
+    }
+    if (front_matter !== null){
+      front_matter.push(frontMatter.value)
+      localStorage.setItem("front_matter",JSON.stringify(front_matter))
+    }
+    else {
+      localStorage.setItem("front_matter",JSON.stringify([frontMatter.value]))
+    }
+    frontMatters.value = JSON.parse(localStorage.getItem("front_matter"))
+    ElNotification({
+      title: '成功',
+      message: '保存成功',
+      type: 'success',
+    })
+  }
+  frontMatter.value = {}
+}
+
+const handleEdit = (index,row) => {
+  frontMatter.value = row
+  show_add.value = true
+}
+const handleDelete = (index,row) => {
+  let data = frontMatters.value
+  frontMatters.value = data.filter(data => data.id !== row.id)
+  localStorage.setItem("front_matter",JSON.stringify(frontMatters.value))
+  ElNotification({
+    title: '成功',
+    message: '删除成功',
+    type: 'success',
+  })
+}
+
 </script>
 
 <style scoped>
@@ -312,5 +454,24 @@ function addDisableProperty(node) {
   font-size: smaller;
   color: orangered;
   margin-left: 1vw;
+}
+
+.flex_other{
+  display: flex;
+}
+.flex_table{
+  flex-grow: 1;
+}
+.add_col{
+  margin-top: 2vh;
+  padding: 10px;
+  border-radius: 20px;
+  background: rgba(0, 140, 255,0.1);
+}
+
+.test{
+  opacity: 0;
+  background: #008cff;
+  border-radius: 40px;
 }
 </style>
