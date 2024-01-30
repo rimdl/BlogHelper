@@ -182,12 +182,9 @@
                   <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
                                  @confirm="deleteGit(item.sha,item.label.substring(item.label.indexOf('_post') + 7),$event)">
                     <template #reference>
-                      <el-tooltip content="删除" placement="top" effect="light">
                         <el-avatar :size="30" style="background: white;margin-left: 1vw" src="/images/delete.svg"/>
-                      </el-tooltip>
                     </template>
                   </el-popconfirm>
-
                 </el-col>
               </el-row>
             </el-col>
@@ -224,9 +221,7 @@
                     <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
                                    @confirm="deleteDraft(item.filename)">
                       <template #reference>
-                        <el-tooltip content="删除" placement="top" effect="light">
                         <el-avatar :size="30" style="background: white;margin-left: 1vw" src="/images/delete.svg"/>
-                        </el-tooltip>
                       </template>
                     </el-popconfirm>
 

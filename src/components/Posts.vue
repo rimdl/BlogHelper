@@ -53,7 +53,7 @@
               <el-col :span="20">
                 <el-input v-if="item.type === 'text'" type="text" v-model="file_info[item.key]" style="width: 100%"/>
                 <el-input v-if="item.type === 'num'" type="number" v-model="file_info[item.key]" style="width: 100%"/>
-                <el-input v-if="item.type === 'arr'" type="text" v-model="file_info[item.key]" style="width: 100%"/>
+                <el-input v-if="item.type === 'arr'" type="text" placeholder="多个tags使用英文逗号隔开:tags1,tags2,tags3" v-model="file_info[item.key]" style="width: 100%"/>
                 <el-switch v-if="item.type === 'bool'" v-model="file_info[item.key]"/>
                 <el-date-picker v-if="item.type === 'datetime'" value-format="YYYY-MM-DD HH:mm:ss" v-model="file_info[item.key]" style="width: 100%" type="datetime" :placeholder="item.label"/>
               </el-col>
