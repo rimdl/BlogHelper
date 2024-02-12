@@ -38,14 +38,16 @@
           <el-button style="width: 100%" round class="draft_btn" @click="save_draft($event)">存草稿</el-button>
         </el-col>
       </el-row>
-        <el-row v-if="showSettings" class="glass" style="border-radius: 20px;padding: 10px;margin-top: 2vh">
+        <el-row v-if="showSettings" class="glass" style="border-radius: 20px;padding: 10px;margin-top: 2vh;">
           <el-col :span="24">
             <label class="main_label">文章设置</label>
           </el-col>
           <el-col :span="24">
             <el-divider border-style="dashed"/>
           </el-col>
-          <el-col :span="24" v-for="(item,index) in local_front_matter" style="margin-top: 1vh">
+          <el-col :span="24" style="max-height: 55vh;overflow-y: scroll">
+            <el-row>
+              <el-col :span="24" v-for="(item,index) in local_front_matter" style="margin-top: 1vh;">
             <el-row>
               <el-col :span="4">
                 <label class="sub_label">{{item.label}}</label>
@@ -79,6 +81,8 @@
                   <span style="font-weight: bold;font-size: smaller;color: #66ccff;margin-left: 1vw">添加更多选项</span>
                 </router-link>
               </el-col>
+            </el-row>
+          </el-col>
             </el-row>
           </el-col>
         </el-row>
