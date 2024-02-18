@@ -47,7 +47,7 @@
           </el-col>
           <el-col :span="24" style="max-height: 55vh;overflow-y: scroll">
             <el-row>
-              <el-col :span="24" v-for="(item,index) in local_front_matter" style="margin-top: 1vh;">
+              <el-col :span="24" v-for="(item,index) in local_front_matter" style="margin-top: 1vh;" :key="index">
             <el-row>
               <el-col :span="4">
                 <label class="sub_label">{{item.label}}</label>
@@ -119,7 +119,7 @@ import {ElNotification} from "element-plus";
 import yaml from "js-yaml"
 import party from "party-js";
 import {useRoute} from 'vue-router';
-import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useSettingsStore} from "../stores/settingsStore.js";
 import {myFetch} from "../utils/my_fetch.js";
 
 const {query} = useRoute();
@@ -229,10 +229,6 @@ const editorConfig = {
       '|',
       'tableColumn', // 表列设置
       'tableRow', // 表行设置
-      'mergeTableCells', // 合并单元格
-      '|',
-      'tableProperties', // 表属性
-      'tableCellProperties', // 单元格属性
     ],
   },
   image: {
@@ -263,10 +259,8 @@ onMounted(async () =>{
         const match = frontMatterRegex.exec(draft.content);
         if (match) {
           const frontMatterContent = match[1];
-          const json_data = yaml.load(frontMatterContent)
-          file_info.value = json_data
-          let matchResult = draft.content.replace(/^---[^]*---/, '');
-          editorData.value = matchResult
+          file_info.value = yaml.load(frontMatterContent)
+          editorData.value = draft.content.replace(/^---[^]*---/, '');
           show_edit.value = true
           showSettings.value = true
           show_settings_edit.value = true
@@ -292,8 +286,7 @@ onMounted(async () =>{
       show_settings_edit.value = true
       sha.value = data.data.sha
       let content = new TextDecoder().decode(Uint8Array.from(atob(data.data.content), (c) => c.charCodeAt(0)))
-      let matchResult = content.replace(/^---[^]*---/, '');
-        editorData.value = matchResult
+      editorData.value = content.replace(/^---[^]*---/, '');
       const match = frontMatterRegex.exec(content);
 
       if (match) {
@@ -449,7 +442,7 @@ const publish_post = async (e) => {
     'X-GitHub-Api-Version': '2022-11-28'
   }
   const branch = settingsStore.settings.branch
-  const msg = "发布文章"
+  const msg = ""
   let body = {}
   if (sha.value !== ""){
     body = {branch: branch, message: msg, content: content,sha: sha.value,path: path}
@@ -547,13 +540,13 @@ const deleteDraft = (filename) => {
 
 @keyframes gradientBG {
   0% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
   50% {
     background-position: 100% 50%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
 }
 
