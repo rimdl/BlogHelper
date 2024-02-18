@@ -19,14 +19,14 @@
 <script setup>
 import Side from  './components/Side.vue';
 import Nav from  './components/Nav.vue';
-import {getCurrentInstance, onBeforeMount, ref, watch,provide} from "vue";
+import {getCurrentInstance, onBeforeMount, watch,provide} from "vue";
 import {useUserStore} from "./stores/userStore";
 import { useRouter } from "vue-router";
 import {useSystemStore} from "./stores/systemStore";
 import {useSettingsStore} from "./stores/settingsStore.js";
-import party from "party-js";
 import {useTreeStore} from "./stores/treeStore.js";
-import { ElNotification } from 'element-plus'
+import { ElNotification } from 'element-plus';
+import {myFetch} from "./utils/my_fetch.js";
 
 const systemStore = useSystemStore()
 const userStore = useUserStore()
@@ -34,9 +34,6 @@ const settingsStore = useSettingsStore()
 const treeStore = useTreeStore()
 
 const router = useRouter();
-
-const globalProperties = getCurrentInstance().appContext.config.globalProperties;
-const myFetch = globalProperties.$myFetch;
 
 function isPropertyValueEmpty(obj, property) {
   return obj[property] === undefined || obj[property] === null || (typeof obj[property] === 'string' && obj[property].trim() === '');

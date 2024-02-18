@@ -97,7 +97,7 @@
 </template>
 
 <script setup>
-import {getCurrentInstance, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 import CkEditor from '@ckeditor/ckeditor5-vue'
 import {ClassicEditor} from '@ckeditor/ckeditor5-editor-classic'
 import 'ckeditor5/build/translations/zh-cn'
@@ -120,6 +120,7 @@ import yaml from "js-yaml"
 import party from "party-js";
 import {useRoute} from 'vue-router';
 import {useSettingsStore} from "@/stores/settingsStore.js";
+import {myFetch} from "../utils/my_fetch.js";
 
 const {query} = useRoute();
 const show_settings_edit = ref(false)
@@ -233,80 +234,6 @@ const editorConfig = {
       'tableProperties', // 表属性
       'tableCellProperties', // 单元格属性
     ],
-    // 表属性配置
-    tableProperties: {
-      // 边框颜色
-      borderColors: [
-        {color: '#000000', label: '黑色'},
-        {color: '#262626', label: '深灰'},
-        {color: '#D8DAD9', label: '灰色'},
-        {color: '#FFFFFF', label: '白色'},
-        {color: '#DF2A3F', label: '红色'},
-        {color: '#ED740C', label: '橘橙'},
-        {color: '#ECAA04', label: '金盏黄'},
-        {color: '#FBDE28', label: '柠檬黄'},
-        {color: '#74B602', label: '绿色'},
-        {color: '#1DC0C9', label: '青色'},
-        {color: '#117CEE', label: '浅蓝'},
-        {color: '#2F4BDA', label: '蓝色'},
-        {color: '#601BDE', label: '紫色'},
-        {color: '#D22D8D', label: '玫红'}
-      ],
-      // 背景颜色
-      backgroundColors: [
-        {color: '#000000', label: '黑色'},
-        {color: '#262626', label: '深灰'},
-        {color: '#D8DAD9', label: '灰色'},
-        {color: '#FFFFFF', label: '白色'},
-        {color: '#DF2A3F', label: '红色'},
-        {color: '#ED740C', label: '橘橙'},
-        {color: '#ECAA04', label: '金盏黄'},
-        {color: '#FBDE28', label: '柠檬黄'},
-        {color: '#74B602', label: '绿色'},
-        {color: '#1DC0C9', label: '青色'},
-        {color: '#117CEE', label: '浅蓝'},
-        {color: '#2F4BDA', label: '蓝色'},
-        {color: '#601BDE', label: '紫色'},
-        {color: '#D22D8D', label: '玫红'}
-      ],
-    },
-    // 单元格属性配置
-    tableCellProperties: {
-      // 边框颜色
-      borderColors: [
-        {color: '#000000', label: '黑色'},
-        {color: '#262626', label: '深灰'},
-        {color: '#D8DAD9', label: '灰色'},
-        {color: '#FFFFFF', label: '白色'},
-        {color: '#DF2A3F', label: '红色'},
-        {color: '#ED740C', label: '橘橙'},
-        {color: '#ECAA04', label: '金盏黄'},
-        {color: '#FBDE28', label: '柠檬黄'},
-        {color: '#74B602', label: '绿色'},
-        {color: '#1DC0C9', label: '青色'},
-        {color: '#117CEE', label: '浅蓝'},
-        {color: '#2F4BDA', label: '蓝色'},
-        {color: '#601BDE', label: '紫色'},
-        {color: '#D22D8D', label: '玫红'}
-      ],
-      // 背景颜色
-      backgroundColors: [
-        {color: '#000000', label: '黑色'},
-        {color: '#262626', label: '深灰'},
-        {color: '#D8DAD9', label: '灰色'},
-        {color: '#FFFFFF', label: '白色'},
-        {color: '#DF2A3F', label: '红色'},
-        {color: '#ED740C', label: '橘橙'},
-        {color: '#ECAA04', label: '金盏黄'},
-        {color: '#FBDE28', label: '柠檬黄'},
-        {color: '#74B602', label: '绿色'},
-        {color: '#1DC0C9', label: '青色'},
-        {color: '#117CEE', label: '浅蓝'},
-        {color: '#2F4BDA', label: '蓝色'},
-        {color: '#601BDE', label: '紫色'},
-        {color: '#D22D8D', label: '玫红'}
-      ],
-    }
   },
   image: {
     toolbar: [
@@ -321,8 +248,6 @@ const show_edit = ref(false)
 const file_info = ref({})
 
 const settingsStore = useSettingsStore()
-const globalProperties = getCurrentInstance().appContext.config.globalProperties;
-const myFetch = globalProperties.$myFetch;
 
 const sha = ref('')
 

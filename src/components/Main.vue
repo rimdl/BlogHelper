@@ -244,9 +244,7 @@ import {useSettingsStore} from "../stores/settingsStore.js";
 import {useRepositoryStore} from "../stores/repositoryStore.js";
 import {ElNotification} from "element-plus";
 import {useTreeStore} from "../stores/treeStore.js";
-
-const globalProperties = getCurrentInstance().appContext.config.globalProperties;
-const myFetch = globalProperties.$myFetch;
+import {myFetch} from "../utils/my_fetch.js";
 
 const userStore = useUserStore()
 const settingsStore = useSettingsStore()
