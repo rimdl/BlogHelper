@@ -40,7 +40,14 @@
       </el-row>
         <el-row v-if="showSettings" class="glass" style="border-radius: 20px;padding: 10px;margin-top: 2vh;">
           <el-col :span="24">
-            <label class="main_label">文章设置</label>
+            <el-row>
+              <el-col :span="12">
+                <label class="main_label">文章设置</label>
+              </el-col>
+              <el-col :span="12" style="text-align: right">
+                <el-button type="primary" round @click="saveFileInfo">保存</el-button>
+              </el-col>
+            </el-row>
           </el-col>
           <el-col :span="24">
             <el-divider border-style="dashed"/>
@@ -49,13 +56,13 @@
             <el-row>
               <el-col :span="24" v-for="(item,index) in local_front_matter" style="margin-top: 1vh;" :key="index">
             <el-row>
-              <el-col :span="4">
+              <el-col :span="6">
                 <label class="sub_label">{{item.label}}</label>
               </el-col>
-              <el-col :span="20">
+              <el-col :span="18">
                 <el-input v-if="item.type === 'text'" type="text" v-model="file_info[item.key]" style="width: 100%"/>
                 <el-input v-if="item.type === 'num'" type="number" v-model="file_info[item.key]" style="width: 100%"/>
-                <el-input v-if="item.type === 'arr'" type="text" placeholder="多个tags使用英文逗号隔开:tags1,tags2,tags3" v-model="file_info[item.key]" style="width: 100%"/>
+                <el-input v-if="item.type === 'arr'" type="text" :placeholder="'多个'+item.key+'使用英文逗号隔开:'+item.key+','+item.key+','+item.key" v-model="file_info[item.key]" style="width: 100%"/>
                 <el-switch v-if="item.type === 'bool'" v-model="file_info[item.key]"/>
                 <el-date-picker v-if="item.type === 'datetime'" value-format="YYYY-MM-DD HH:mm:ss" v-model="file_info[item.key]" style="width: 100%" type="datetime" :placeholder="item.label"/>
               </el-col>
@@ -76,7 +83,6 @@
           <el-col :span="24" style="margin-top: 1vh">
             <el-row>
               <el-col :span="24" style="text-align: right">
-                <el-button type="primary" round @click="saveFileInfo">保存</el-button>
                 <router-link to="/settings" style="text-decoration: none">
                   <span style="font-weight: bold;font-size: smaller;color: #66ccff;margin-left: 1vw">添加更多选项</span>
                 </router-link>
@@ -347,18 +353,20 @@ function isPropertyValueEmpty(obj, property) {
 
 const front_matter = ref('')
 const saveFileInfo = () => {
-  let tags = []
-  if (file_info.value.tags){
-    if (!Array.isArray(file_info.value.tags)){
-      tags = file_info.value.tags.split(',').map(tag => tag.trim())
-    }else {
-      tags = file_info.value.tags
-    }
-  }
+  const fms = local_front_matter.value
   let obj = JSON.stringify(file_info.value)
-  obj = JSON.parse(obj)
-  if (tags.length>0){
-    obj.tags = tags
+  for (let fm of fms) {
+    if (fm.type === "num"){
+      file_info.value[fm.key] = parseFloat(file_info.value[fm.key])
+    }
+    if (fm.type === "arr"){
+      obj = JSON.parse(obj)
+      if (obj[fm.key]){
+        if (!Array.isArray(obj[fm.key])){
+          obj[fm.key] = obj[fm.key].split(',').map(item => item.trim())
+        }
+      }
+    }
   }
   show_settings_edit.value = true
    if(!isPropertyValueEmpty(obj,'filename')){
@@ -374,7 +382,6 @@ const saveFileInfo = () => {
        type: 'error',
      })
    }
-
 }
 
 const save_draft  = (e) => {
@@ -499,7 +506,13 @@ const deleteDraft = (filename) => {
     }
   }
 }
-
+watch(()=>file_info.value,(nv)=>{
+  if (nv.filename){
+    saveFileInfo()
+  }
+},{
+  deep: true,
+})
 </script>
 
 <style scoped>

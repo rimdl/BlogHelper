@@ -30,7 +30,7 @@
             <tr>
               <td style="width: 70px">
                 <!--              <el-avatar style="background: transparent" src="/images/github.svg" size="default"/>-->
-                <img style="background-size: cover;width: 50px;" src="/images/github.svg"/>
+                <img alt="error" style="background-size: cover;width: 50px;" src="/images/github.svg"/>
               </td>
               <td style="width: 90%;">
                 <span class="settings_sub_label">仓库地址</span><br>
@@ -43,7 +43,7 @@
           <table>
             <tr>
               <td style="width: 70px">
-                <img style="background-size: cover;width: 50px;" src="/images/key.svg"/>
+                <img alt="error" style="background-size: cover;width: 50px;" src="/images/key.svg"/>
               </td>
               <td style="width: 90%;">
                 <span class="settings_sub_label">token</span><br>
@@ -57,7 +57,7 @@
             <tr>
               <td style="width: 70px">
                 <!--              <el-avatar style="background: transparent" src="/images/branch.svg" size="default"/>-->
-                <img style="background-size: cover;width: 50px;" src="/images/branch.svg"/>
+                <img alt="error" style="background-size: cover;width: 50px;" src="/images/branch.svg"/>
               </td>
               <td style="width: 90%;">
                 <span class="settings_sub_label">代码分支</span>
@@ -103,7 +103,7 @@
             <tr>
               <td style="width: 70px">
                 <!--              <el-avatar style="background: transparent" src="/images/root.svg" size="default"/>-->
-                <img style="background-size: cover;width: 50px;" src="/images/root.svg"/>
+                <img alt="error" style="background-size: cover;width: 50px;" src="/images/root.svg"/>
               </td>
               <td style="width: 90%;">
                 <span class="settings_sub_label">项目根目录</span>
@@ -123,7 +123,7 @@
           <el-row>
             <el-col :span="24" class="flex_other">
               <div class="flex_table">
-                <img style="background-size: cover;width: 50px;" src="/images/table.svg"/>
+                <img alt="error" style="background-size: cover;width: 50px;" src="/images/table.svg"/>
               </div>
               <div style="margin-left: 1vw" class="flex_table">
                 <span class="settings_sub_label">Front-Matter设置</span>
@@ -188,11 +188,13 @@
         <el-date-picker v-if="frontMatter.type === 'datetime'" v-model="frontMatter.default" type="datetime"
                         placeholder="Select date and time"/>
       </div>
-      <hr>
-      <el-button style="width: 100%;" v-if="frontMatter.key" @click="save_front_matter">保存</el-button>
       <br>
-      <br>
-      <el-button style="width: 100%;" @click="show_add = !show_add" type="warning">关闭</el-button>
+      <el-button style="width: 100%;" v-if="frontMatter.key" type="success" @click="save_front_matter">保存</el-button>
+      <template #footer>
+        <div style="flex: auto">
+          <el-button @click="show_add = !show_add">取消</el-button>
+        </div>
+      </template>
     </el-drawer>
   </el-row>
 </template>
@@ -344,6 +346,7 @@ options.value = treeStore.tree_info
 const handleRootChange = (e) => {
   let settings = JSON.parse(localStorage.getItem("settings"))
   settings.root = {'url': root.value}
+  party.confetti(e)
 }
 const save_other_settings = (e) => {
   party.confetti(e)
@@ -555,11 +558,7 @@ const importSettings = (content) => {
   background: rgba(187, 234, 255, 0.1);
 }
 
-.tips {
-  font-size: smaller;
-  color: orangered;
-  margin-left: 1vw;
-}
+
 
 .flex_other {
   display: flex;

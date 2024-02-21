@@ -22,6 +22,7 @@
                          :size="50">
                 <img
                     src="/images/errorimg.svg"
+                    alt="error"
                 />
               </el-avatar>
               <br>
@@ -110,7 +111,7 @@
           <el-row>
             <el-col :span="10">
               <!--              <el-avatar :size="50" src="/images/edit_2.svg" style="background: blue" :fit="'cover'"/>-->
-              <img src="/images/edit_2.svg"
+              <img src="/images/edit_2.svg" alt="error"
                    style="background: #008cff;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
             </el-col>
             <el-col :span="14" style="text-align: right">
@@ -129,7 +130,7 @@
           <el-row>
             <el-col :span="10">
               <!--              <el-avatar :size="50" src="/images/github.svg" style="background: white"/>-->
-              <img src="/images/github.svg"
+              <img src="/images/github.svg" alt="error"
                    style="background: white;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
             </el-col>
             <el-col :span="14" style="text-align: right">
@@ -168,8 +169,11 @@
             <el-col :span="24" v-for="(item,index) in  fileList" :key="item.value.url" class="post">
               <el-row>
                 <el-col :span="20">
+                  <router-link
+                      :to="'/read?url='+item.value.url" style="text-decoration: none">
                   <el-tag round effect="dark">{{ index + 1 }}</el-tag>
-                  <span class="main_label">&nbsp;&nbsp;{{ item.label.substring(item.label.indexOf('_post') + 7) }}</span>
+                  <span class="main_label" title="点击阅读" >&nbsp;&nbsp;{{ item.label.substring(item.label.indexOf('_post') + 7) }}</span>
+                  </router-link>
                 </el-col>
                 <el-col :span="4" style="text-align: right">
                   <el-tooltip content="编辑" placement="top" effect="light">
@@ -238,11 +242,11 @@
 
 <script setup>
 import {useUserStore} from "../stores/userStore.js";
-import {getCurrentInstance, inject, onBeforeMount, onBeforeUpdate, onMounted, ref, watch} from "vue";
+import {inject, onMounted, ref, watch} from "vue";
 import party from "party-js";
 import {useSettingsStore} from "../stores/settingsStore.js";
 import {useRepositoryStore} from "../stores/repositoryStore.js";
-import {ElNotification} from "element-plus";
+import { ElNotification} from "element-plus";
 import {useTreeStore} from "../stores/treeStore.js";
 import {myFetch} from "../utils/my_fetch.js";
 
@@ -383,6 +387,7 @@ const deleteGit = async (sha, filename, e) => {
   }
 }
 
+
 </script>
 
 <style scoped>
@@ -426,13 +431,13 @@ const deleteGit = async (sha, filename, e) => {
 
 @keyframes gradientBG {
   0% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
   50% {
     background-position: 100% 50%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
 }
 
@@ -480,8 +485,4 @@ const deleteGit = async (sha, filename, e) => {
   transform: rotate(180deg);
 }
 
-.test{
-  background-image: url("/images/test.svg");
-  background-size: 100% 9vh;
-}
 </style>

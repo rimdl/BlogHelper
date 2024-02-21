@@ -19,7 +19,7 @@
 <script setup>
 import Side from  './components/Side.vue';
 import Nav from  './components/Nav.vue';
-import {getCurrentInstance, onBeforeMount, watch,provide} from "vue";
+import {onBeforeMount, watch,provide} from "vue";
 import {useUserStore} from "./stores/userStore";
 import { useRouter } from "vue-router";
 import {useSystemStore} from "./stores/systemStore";
@@ -50,7 +50,7 @@ onBeforeMount(() => {
 })
 watch(() => router.currentRoute.value, (newVal, oldVal) =>{
   if (newVal !== oldVal){
-    systemStore.set_now_page(newVal.fullPath)
+    systemStore.set_now_page(newVal.path)
   }
 })
 
@@ -159,26 +159,14 @@ provide("extractNodesByPath",extractNodesByPath)
 
 
 :deep(.glass) {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 1);
-  box-shadow: rgba(142, 142, 142, 0.19) 0px 6px 3px 0px;
-  -webkit-box-shadow: rgba(142, 142, 142, 1) 0px 1px 5px 0px;
+  box-shadow: rgba(142, 142, 142, 0.19) 0 6px 3px 0;
+  -webkit-box-shadow: rgba(142, 142, 142, 1) 0 1px 5px 0;
 }
 
- .el-header {
-   height: 70px;
-   width: 88vw;
- }
- .el-aside {
-   height: 98vh;
-   width: 10vw;
-   margin-left: 1vw;
- }
- .el-main {
-   height: calc(98vh - 70px);
- }
 
  ::-webkit-scrollbar {
    width: 8px;
@@ -187,16 +175,4 @@ provide("extractNodesByPath",extractNodesByPath)
    background-color: #eaecf1;
    border-radius: 3px;
  }
-
-.scale-enter-active,
-.scale-leave-active {
-  transition: all 0.1s ease;
-}
-
-
-.scale-enter-from,
-.scale-leave-to {
-  opacity: 0;
-  transform: scale(0.9);
-}
 </style>

@@ -24,6 +24,11 @@ const routes = [
         name: 'settings',
         component: () => import('../components/Settings.vue'),
     },
+    {
+        path: '/read',
+        name: 'read',
+        component: () => import('../components/Read.vue'),
+    },
 ]
 
 const router = createRouter({
