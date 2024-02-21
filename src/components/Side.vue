@@ -30,14 +30,6 @@
         </router-link>
       </el-row>
       <el-row style="margin-top: 1vh">
-        <router-link to="/pages" class="r_link">
-        <el-col :span="24" class="my_btn">
-          <img src="/images/link.svg" class="icon_style" alt="">
-          <span class="text_style">页面</span>
-        </el-col>
-        </router-link>
-      </el-row>
-      <el-row style="margin-top: 1vh">
         <router-link to="/settings" class="r_link">
         <el-col :span="24" class="my_btn">
           <img src="/images/settings.svg" class="icon_style" alt="">
@@ -50,8 +42,6 @@
 </template>
 
 <script setup>
-import { useSystemStore } from '../stores/systemStore'
-import {ref} from "vue";
 
 
 </script>
