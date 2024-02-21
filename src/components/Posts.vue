@@ -97,7 +97,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import CkEditor from '@ckeditor/ckeditor5-vue'
 import {ClassicEditor} from '@ckeditor/ckeditor5-editor-classic'
 import 'ckeditor5/build/translations/zh-cn'
@@ -259,6 +259,7 @@ onMounted(async () =>{
         const match = frontMatterRegex.exec(draft.content);
         if (match) {
           const frontMatterContent = match[1];
+          front_matter.value = "---\n"+frontMatterContent+"\n---"
           file_info.value = yaml.load(frontMatterContent)
           editorData.value = draft.content.replace(/^---[^]*---/, '');
           show_edit.value = true
@@ -378,7 +379,7 @@ const saveFileInfo = () => {
 
 const save_draft  = (e) => {
   const obj = file_info.value
-  if(!isPropertyValueEmpty(obj,'filename')){
+  if(!isPropertyValueEmpty(obj,'filename') && front_matter.value !== ''){
     const draft = {
       filename: obj.filename,
       content: front_matter.value+"\n"+editorData.value,
@@ -413,7 +414,7 @@ const save_draft  = (e) => {
     show_edit.value = false
     ElNotification({
       title: '失败',
-      message: '还未设置文件名',
+      message: '还未设置文件名或Front—Matter未设置',
       type: 'error',
     })
   }
@@ -498,6 +499,7 @@ const deleteDraft = (filename) => {
     }
   }
 }
+
 </script>
 
 <style scoped>
