@@ -1,5 +1,5 @@
 <template>
-  <el-row style="padding:10px;border-radius: 20px">
+  <el-row style="padding:10px;border-radius: 20px"  v-loading.fullscreen.lock="loading">
     <el-col :span="24">
       <el-row>
         <el-col :span="11" class="glass" style="border-radius: 20px;padding: 10px">
@@ -308,6 +308,8 @@
       <br>
       <span style="font-size: smaller;color: #34495e;font-weight: bolder">© 2023-{{ current_year }} BlogHelper, <a style="color: #34495e" href="https://github.com/rimdl">xinsi.</a></span>
     </el-col>
+    <el-col :span="24">
+    </el-col>
   </el-row>
 </template>
 
@@ -330,6 +332,7 @@ const errorHandler = () => true
 const fileList = ref([])
 const drafts = ref([])
 const current_year = ref("")
+const loading = ref(true)
 
 function isPropertyValueEmpty(obj, property) {
   return obj[property] === undefined || obj[property] === null || (typeof obj[property] === 'string' && obj[property].trim() === '');
@@ -355,6 +358,7 @@ onMounted(() => {
     })
   }
   current_year.value = new Date().getFullYear()
+  loading.value = false
 })
 
 
@@ -382,7 +386,6 @@ const get_repository_info = async () => {
     let data = await myFetch.get(url, headers)
     if (data.error === null) {
       repositoryStore.set_repository_info(data.data)
-      console.log(data.data)
     } else {
       console.log(data.error)
     }

@@ -1,5 +1,5 @@
 <template>
-  <el-row style="margin-top: 2vh;">
+  <el-row style="margin-top: 2vh;" v-loading.fullscreen.lock="loading">
     <el-col :span="7" >
       <el-row>
         <el-col :span="11" >
@@ -254,6 +254,7 @@ const settingsStore = useSettingsStore()
 const sha = ref('')
 
 const local_front_matter = ref({})
+const loading = ref(true)
 
 onMounted(async () =>{
   local_front_matter.value = JSON.parse(localStorage.getItem("front_matter"))
@@ -314,6 +315,7 @@ onMounted(async () =>{
       file_info.value[local_front_matter.value[i].key] = local_front_matter.value[i].default
     }
   }
+  loading.value = false
 })
 
 const newPost = () => {

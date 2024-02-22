@@ -1,7 +1,7 @@
 
 
 <template>
-<el-row>
+<el-row  v-loading.fullscreen.lock="loading">
   <el-col :span="22" :offset="1"  id="read_main">
     <el-row>
       <el-col :span="24" :style="top">
@@ -34,6 +34,7 @@ const html = ref('')
 const front_matter = ref({})
 
 const top = ref('')
+const loading = ref(true)
 
 onMounted(()=>{
   read(query.url)
@@ -42,6 +43,7 @@ onMounted(()=>{
   link.rel = 'stylesheet'
   link.href = 'https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css'
   document.head.appendChild(link)
+  loading.value = false
 })
 const read = async (url) => {
   let headers = {

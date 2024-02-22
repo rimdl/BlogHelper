@@ -1,5 +1,5 @@
 <template>
-  <el-row class="glass settings">
+  <el-row class="glass settings" v-loading.fullscreen.lock="loading">
     <el-col :span="24">
       <el-row>
         <el-col :span="24">
@@ -218,6 +218,7 @@ const sub_repo = ref('')
 const tip_color = ref('#00d0ff')
 const root = ref('')
 const options = ref([])
+const loading = ref(true)
 const cascader_prop = {
   checkStrictly: true,
   emitPath: false
@@ -248,6 +249,9 @@ onBeforeMount(() => {
   if (localStorage.getItem("user_info") !== null) {
     userStore.set_user_info(JSON.parse(localStorage.getItem("user_info")))
   }
+})
+onMounted(()=>{
+  loading.value = false
 })
 const get_branches = async (e) => {
   if (repo.value !== null && repo.value !== '' && token.value !== null && token.value !== '') {
