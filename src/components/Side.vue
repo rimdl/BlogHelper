@@ -37,6 +37,7 @@
         </el-col>
         </router-link>
       </el-row>
+
     </el-col>
   </el-row>
 </template>
@@ -66,6 +67,7 @@
   color: rgba(93, 106, 137);
   padding: 10px;
   cursor: pointer;
+  transition: 0.5s;
 }
 .my_btn:hover{
   scale: 0.98;
@@ -90,5 +92,15 @@
 .r_link{
   text-decoration: none;
   width: 100%;
+}
+.diy{
+  padding: 10px;
+  border-radius: 10px;
+}
+.add{
+  transition: 0.5s;
+}
+.add:hover{
+  transform: rotate(90deg);
 }
 </style>

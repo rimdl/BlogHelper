@@ -159,12 +159,9 @@ provide("extractNodesByPath",extractNodesByPath)
 
 
 :deep(.glass) {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 1);
-  box-shadow: rgba(142, 142, 142, 0.19) 0 6px 3px 0;
-  -webkit-box-shadow: rgba(142, 142, 142, 1) 0 1px 5px 0;
 }
 
 

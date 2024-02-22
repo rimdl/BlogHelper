@@ -543,6 +543,7 @@ const importSettings = (content) => {
   font-weight: bolder;
   color: rgba(93, 106, 137);
   font-size: small;
+  align-items: start;
 }
 
 .input_style {

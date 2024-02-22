@@ -117,12 +117,61 @@
             <el-col :span="14" style="text-align: right">
               <label class="bl_main_label">文章总数</label>
               <br>
-              <span style="font-size: x-large;color: white;font-weight: bolder">{{ fileList.length }}</span>
+              <span style="font-size: x-large;color: #2c3e50;font-weight: bolder">{{ fileList.length }}</span>
             </el-col>
             <el-col :span="24" style="text-align: center">
+              <el-button round style="background: rgba(255,255,255,0.5)" class="v_btn">
               <router-link to="/posts" style="text-decoration: none">
-                <label class="bl_sub_label" style="cursor: pointer">去写作>>></label>
+                <label class="bl_sub_label" style="cursor: pointer;display: flex;align-items: center;justify-content: center">
+                  <img src="../../public/images/pointer.svg" style="width: 30px" alt="">
+                  &nbsp;去写作</label>
               </router-link>
+              </el-button>
+            </el-col>
+          </el-row>
+        </el-col>
+        <el-col :span="5" :offset="1" class="glass bl3">
+          <el-row>
+            <el-col :span="10">
+              <img src="/images/settings_3.svg" alt="error"
+                   style="background: white;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
+            </el-col>
+            <el-col :span="14" style="text-align: right">
+              <label class="bl_main_label">设置</label>
+              <br>
+              <span class="bl_sub_label">系统设置</span>
+            </el-col>
+            <el-col :span="24" style="text-align: center">
+              <el-button round style="background: rgba(255,255,255,0.5)"  class="v_btn">
+              <router-link to="/settings" style="text-decoration: none">
+                <label class="bl_sub_label" style="cursor: pointer;display: flex;align-items: center;justify-content: center">
+                  <img src="../../public/images/settings_4.svg" style="width: 20px" alt="">
+                  &nbsp;点击前往设置页面</label>
+              </router-link>
+              </el-button>
+            </el-col>
+          </el-row>
+        </el-col>
+        <el-col :span="5" :offset="2" class="glass bl4">
+          <el-row>
+            <el-col :span="10">
+              <!--              <el-avatar :size="50" src="/images/github.svg" style="background: white"/>-->
+              <img src="/images/myself.svg" alt="error"
+                   style="background: white;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
+            </el-col>
+            <el-col :span="14" style="text-align: right">
+              <label class="bl_main_label">我的GitHub</label>
+              <br>
+              <span class="bl_sub_label">访问我的GitHub主页</span>
+            </el-col>
+            <el-col :span="24" style="text-align: center">
+              <el-button round style="background: rgba(255,255,255,0.5)"  class="v_btn">
+                <a :href="userStore.user_info.html_url" style="text-decoration: none" target="_blank">
+                  <label class="bl_sub_label" style="cursor: pointer;display: flex;align-items: center;justify-content: center">
+                    <img src="../../public/images/br.svg" style="width: 25px" alt="">
+                    &nbsp;{{ userStore.user_info.name }}</label>
+                </a>
+              </el-button>
             </el-col>
           </el-row>
         </el-col>
@@ -139,9 +188,13 @@
               <span class="bl_sub_label">查看本项目代码</span>
             </el-col>
             <el-col :span="24" style="text-align: center">
+              <el-button round style="background: rgba(255,255,255,0.5)" class="v_btn" >
               <a href="https://github.com/rimdl/BlogHelper" style="text-decoration: none" target="_blank">
-                <label class="bl_sub_label" style="cursor: pointer">去github>>></label>
+                <label class="bl_sub_label" style="cursor: pointer;display: flex;align-items: center;justify-content: center">
+                  <img src="../../public/images/visit.svg" style="width: 25px" alt="">
+                  &nbsp;github</label>
               </a>
+              </el-button>
             </el-col>
           </el-row>
         </el-col>
@@ -236,8 +289,26 @@
         </el-col>
       </el-row>
     </el-col>
+    <el-col :span="24" class="main_footer">
+      <p style="font-weight: bolder;font-size: larger;">
+        <span style="color: #fa6058">B</span>
+        <span style="color: #fea501">l</span>
+        <span style="color: #e79a42">o</span>
+        <span style="color: #029344">g</span>
+        <span style="color: #0c75d5">H</span>
+        <span style="color: #2d96ff">e</span>
+        <span style="color: #c6a9fb">l</span>
+        <span style="color: #fa6058">p</span>
+        <span style="color: #2d96ff">e</span>
+        <span style="color: #c6a9fb">r</span>
+      </p>
+      <span style="font-size: smaller;color: #34495e;font-weight: bolder">本项目开源地址：<a href="https://github.com/rimdl/BlogHelper" target="_blank">Github</a></span>
+      &nbsp;
+      <span style="font-size: smaller;color: #34495e;font-weight: bolder">您可在此处反馈问题：<a href="https://github.com/rimdl/BlogHelper/issues" target="_blank">issues</a></span>
+      <br>
+      <span style="font-size: smaller;color: #34495e;font-weight: bolder">© 2023-{{ current_year }} BlogHelper, <a style="color: #34495e" href="https://github.com/rimdl">xinsi.</a></span>
+    </el-col>
   </el-row>
-
 </template>
 
 <script setup>
@@ -258,6 +329,7 @@ const errorHandler = () => true
 
 const fileList = ref([])
 const drafts = ref([])
+const current_year = ref("")
 
 function isPropertyValueEmpty(obj, property) {
   return obj[property] === undefined || obj[property] === null || (typeof obj[property] === 'string' && obj[property].trim() === '');
@@ -271,6 +343,7 @@ onMounted(() => {
     getDrafts()
     get_tree()
   }
+  current_year.value = new Date().getFullYear()
 })
 
 
@@ -422,6 +495,7 @@ const deleteGit = async (sha, filename, e) => {
   border-radius: 10px;
   padding: 10px;
   cursor: pointer;
+  transition: 0.5s;
 }
 
 .post:hover {
@@ -445,16 +519,38 @@ const deleteGit = async (sha, filename, e) => {
   border: none;
   border-radius: 10px;
   padding: 10px;
-  background: rgb(99, 230, 179);
-  background: linear-gradient(90deg, rgba(99, 230, 179, 1) 0%, rgba(68, 228, 141, 1) 50%, rgba(44, 225, 105, 1) 100%);
+  //background: #e8faea;
+  //background: linear-gradient(90deg, rgba(99, 230, 179, 1) 0%, rgba(68, 228, 141, 1) 50%, rgba(44, 225, 105, 1) 100%);
+  background: rgba(255,255,255,0.7);
+  transition: 0.5s;
 }
 
 .bl2 {
   border: none;
   border-radius: 10px;
   padding: 10px;
-  background: rgb(52, 181, 231);
-  background: linear-gradient(90deg, rgba(52, 181, 231, 1) 0%, rgba(49, 158, 228, 1) 50%, rgba(44, 134, 225, 1) 100%);
+  //background: rgb(52, 181, 231);
+  //background: linear-gradient(90deg, rgba(52, 181, 231, 1) 0%, rgba(49, 158, 228, 1) 50%, rgba(44, 134, 225, 1) 100%);
+  background: rgba(255,255,255,0.7);
+  transition: 0.5s;
+}
+.bl3 {
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  //background: rgb(219,226,52);
+  //background: linear-gradient(90deg, rgba(219,226,52,1) 0%, rgba(46,219,226,1) 100%);
+  background: rgba(255,255,255,0.7);
+  transition: 0.5s;
+}
+.bl4 {
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  //background: rgb(219,226,52);
+  //background: linear-gradient(90deg, rgba(219,226,52,1) 0%, rgba(46,219,226,1) 100%);
+  background: rgba(255,255,255,0.7);
+  transition: 0.5s;
 }
 
 .bl:hover {
@@ -464,14 +560,21 @@ const deleteGit = async (sha, filename, e) => {
 .bl2:hover {
   transform: translateY(-3px);
 }
+.bl3:hover {
+  transform: translateY(-3px);
+}
+
+.bl4:hover {
+  transform: translateY(-3px);
+}
 
 .bl_main_label {
-  color: white;
+  color: #2c3e50;
   font-weight: bolder;
 }
 
 .bl_sub_label {
-  color: white;
+  color: #2c3e50;
   font-weight: bolder;
   font-size: smaller;
 }
@@ -484,5 +587,17 @@ const deleteGit = async (sha, filename, e) => {
 .refresh_btn:hover{
   transform: rotate(180deg);
 }
-
+.main_footer{
+  padding: 10px;
+  margin-top: 1vh;
+  text-align: center;
+  background: rgba(255,255,255,0.7);
+  border-radius: 10px;
+}
+.v_btn{
+  transition: 0.5s;
+}
+.v_btn:hover{
+  scale: 1.1;
+}
 </style>
