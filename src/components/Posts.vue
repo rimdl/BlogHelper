@@ -578,6 +578,13 @@ watch(()=>file_info.value,(nv)=>{
   background-color: #eaecf1;
   border-radius: 3px;
 }
+:deep(::-webkit-scrollbar) {
+  width: 8px;
+}
+:deep(::-webkit-scrollbar-thumb) {
+  background-color: #eaecf1;
+  border-radius: 3px;
+}
 
 .fade-in-enter-active,
 .fade-in-leave-active {
@@ -587,5 +594,23 @@ watch(()=>file_info.value,(nv)=>{
 .fade-in-enter-from,
 .fade-in-leave-to {
   opacity: 0;
+}
+:deep(.ck.ck-editor__main>.ck-editor__editable){
+  height: 69vh;
+  background: transparent;
+  border: none;
+}
+
+:deep(.ck-source-editing-area){
+  height: 69vh;
+  background: transparent;
+  border: none;
+}
+:deep(.ck-source-editing-area textarea){
+  height: 69vh;
+  background: transparent;
+  border: none;
+  font-family: Arial;
+  overflow: scroll;
 }
 </style>
