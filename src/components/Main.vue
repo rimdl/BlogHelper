@@ -317,7 +317,7 @@ import {inject, onMounted, ref, watch} from "vue";
 import party from "party-js";
 import {useSettingsStore} from "../stores/settingsStore.js";
 import {useRepositoryStore} from "../stores/repositoryStore.js";
-import { ElNotification} from "element-plus";
+import {ElMessageBox, ElNotification} from "element-plus";
 import {useTreeStore} from "../stores/treeStore.js";
 import {myFetch} from "../utils/my_fetch.js";
 
@@ -342,6 +342,17 @@ onMounted(() => {
     getPostFile()
     getDrafts()
     get_tree()
+  }
+  else {
+    ElMessageBox({
+      title: '提示',
+      message: '<strong>本地未获取到配置信息，请前往<a href="/settings">设置</a>页面进行配置。</strong>',
+      confirmButtonText: 'OK',
+      dangerouslyUseHTMLString: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      showConfirmButton: false
+    })
   }
   current_year.value = new Date().getFullYear()
 })
@@ -371,6 +382,7 @@ const get_repository_info = async () => {
     let data = await myFetch.get(url, headers)
     if (data.error === null) {
       repositoryStore.set_repository_info(data.data)
+      console.log(data.data)
     } else {
       console.log(data.error)
     }

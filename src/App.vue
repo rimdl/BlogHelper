@@ -25,7 +25,7 @@ import { useRouter } from "vue-router";
 import {useSystemStore} from "./stores/systemStore";
 import {useSettingsStore} from "./stores/settingsStore.js";
 import {useTreeStore} from "./stores/treeStore.js";
-import { ElNotification } from 'element-plus';
+import {ElMessageBox, ElNotification} from 'element-plus';
 import {myFetch} from "./utils/my_fetch.js";
 
 const systemStore = useSystemStore()
