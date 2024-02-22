@@ -38,6 +38,7 @@
           <el-button style="width: 100%" round class="draft_btn" @click="save_draft($event)">存草稿</el-button>
         </el-col>
       </el-row>
+      <transition name="fade-in">
         <el-row v-if="showSettings" class="glass" style="border-radius: 20px;padding: 10px;margin-top: 2vh;">
           <el-col :span="24">
             <el-row>
@@ -92,12 +93,15 @@
             </el-row>
           </el-col>
         </el-row>
+      </transition>
     </el-col>
+    <transition name="fade-in">
     <el-col  v-if="show_edit" :span="16" :offset="1"  class="glass" style="border-radius: 20px;padding: 10px;overflow-y: scroll;max-height: 80ch">
       <div>
         <ckeditor5 :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor5>
       </div>
     </el-col>
+    </transition>
   </el-row>
 
 </template>
@@ -573,5 +577,15 @@ watch(()=>file_info.value,(nv)=>{
 ::-webkit-scrollbar-thumb {
   background-color: #eaecf1;
   border-radius: 3px;
+}
+
+.fade-in-enter-active,
+.fade-in-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-in-enter-from,
+.fade-in-leave-to {
+  opacity: 0;
 }
 </style>

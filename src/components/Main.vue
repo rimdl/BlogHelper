@@ -245,6 +245,9 @@
                 </el-col>
               </el-row>
             </el-col>
+            <el-col :span="24" v-if="fileList.length === 0">
+              <el-empty image-size="100" description="没有数据"/>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="11" :offset="2" class="glass" style="border-radius: 20px;padding: 10px">
@@ -284,6 +287,9 @@
 
                 </el-col>
               </el-row>
+            </el-col>
+            <el-col :span="24" v-if="drafts.length === 0">
+              <el-empty image-size="100" description="没有数据"/>
             </el-col>
           </el-row>
         </el-col>
