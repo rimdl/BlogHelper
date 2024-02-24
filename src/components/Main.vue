@@ -304,7 +304,7 @@
       <span style="font-size: smaller;color: #34495e;font-weight: bolder">您可在此处反馈问题：<a href="https://github.com/rimdl/BlogHelper/issues" target="_blank">issues</a></span>
       <br>
       <span style="font-size: smaller;color: #34495e;font-weight: bolder;display: flex;align-items: center;justify-content: center">© 2023-{{ current_year }} <span><img src="../../public/images/heart.svg" class="heartBeat" alt=""></span> BlogHelper, <a class="ft_link" href="https://github.com/rimdl">@xinsi.</a></span>
-      <span style="font-size: smaller;color: #34495e;font-weight: bolder">V <span style="font-size: smaller">1.0.0</span></span>
+      <span style="font-size: smaller;color: #34495e;font-weight: bolder">v24.02.24_1</span>
     </el-col>
     <el-col :span="24">
     </el-col>
