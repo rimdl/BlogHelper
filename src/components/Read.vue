@@ -1,7 +1,7 @@
 
 
 <template>
-<el-row  v-loading.fullscreen.lock="loading">
+<el-row>
   <el-col :span="22" :offset="1"  id="read_main">
     <el-row>
       <el-col :span="24" :style="top">
@@ -27,6 +27,7 @@ import {marked} from "marked";
 import {onMounted, ref} from "vue";
 import {useSettingsStore} from "../stores/settingsStore.js";
 import yaml from "js-yaml";
+import {useSystemStore} from "../stores/systemStore.js";
 
 const {query} = useRoute();
 const settingsStore = useSettingsStore()
@@ -34,7 +35,7 @@ const html = ref('')
 const front_matter = ref({})
 
 const top = ref('')
-const loading = ref(true)
+const systemStore = useSystemStore()
 
 onMounted(()=>{
   read(query.url)
@@ -43,7 +44,7 @@ onMounted(()=>{
   link.rel = 'stylesheet'
   link.href = 'https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css'
   document.head.appendChild(link)
-  loading.value = false
+  systemStore.loading = false
 })
 const read = async (url) => {
   let headers = {

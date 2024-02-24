@@ -1,5 +1,5 @@
 <template>
-  <el-row style="padding:10px;border-radius: 20px"  v-loading.fullscreen.lock="loading">
+  <el-row style="padding:10px;border-radius: 20px">
     <el-col :span="24">
       <el-row>
         <el-col :span="11" class="glass" style="border-radius: 20px;padding: 10px">
@@ -297,22 +297,14 @@
     </el-col>
     <el-col :span="24" class="main_footer">
       <p style="font-weight: bolder;font-size: larger;">
-        <span style="color: #fa6058">B</span>
-        <span style="color: #fea501">l</span>
-        <span style="color: #e79a42">o</span>
-        <span style="color: #029344">g</span>
-        <span style="color: #0c75d5">H</span>
-        <span style="color: #2d96ff">e</span>
-        <span style="color: #c6a9fb">l</span>
-        <span style="color: #fa6058">p</span>
-        <span style="color: #2d96ff">e</span>
-        <span style="color: #c6a9fb">r</span>
+        <img src="../../public/images/bloghelper.svg" style="width: 100px" alt="">
       </p>
       <span style="font-size: smaller;color: #34495e;font-weight: bolder">本项目开源地址：<a href="https://github.com/rimdl/BlogHelper" target="_blank">Github</a></span>
       &nbsp;
       <span style="font-size: smaller;color: #34495e;font-weight: bolder">您可在此处反馈问题：<a href="https://github.com/rimdl/BlogHelper/issues" target="_blank">issues</a></span>
       <br>
-      <span style="font-size: smaller;color: #34495e;font-weight: bolder">© 2023-{{ current_year }} BlogHelper, <a style="color: #34495e" href="https://github.com/rimdl">xinsi.</a></span>
+      <span style="font-size: smaller;color: #34495e;font-weight: bolder;display: flex;align-items: center;justify-content: center">© 2023-{{ current_year }} <span><img src="../../public/images/heart.svg" class="heartBeat" alt=""></span> BlogHelper, <a class="ft_link" href="https://github.com/rimdl">@xinsi.</a></span>
+      <span style="font-size: smaller;color: #34495e;font-weight: bolder">V <span style="font-size: smaller">1.0.0</span></span>
     </el-col>
     <el-col :span="24">
     </el-col>
@@ -328,11 +320,13 @@ import {useRepositoryStore} from "../stores/repositoryStore.js";
 import {ElMessageBox, ElNotification} from "element-plus";
 import {useTreeStore} from "../stores/treeStore.js";
 import {myFetch} from "../utils/my_fetch.js";
+import {useSystemStore} from "../stores/systemStore.js";
 
 const userStore = useUserStore()
 const settingsStore = useSettingsStore()
 const repositoryStore = useRepositoryStore()
 const treeStore = useTreeStore()
+const systemStore = useSystemStore()
 const errorHandler = () => true
 
 const fileList = ref([])
@@ -346,11 +340,12 @@ function isPropertyValueEmpty(obj, property) {
 
 const get_tree = inject("get_tree")
 onMounted(() => {
+  systemStore.loading = false
   if (!isPropertyValueEmpty(settingsStore.settings, 'token')) {
+    get_tree(false)
     get_repository_info()
     getPostFile()
     getDrafts()
-    get_tree()
   }
   else {
     ElMessageBox({
@@ -369,9 +364,19 @@ onMounted(() => {
 
 
 const reget_repo = async (e) => {
+  ElNotification({
+    title: '提示',
+    message: '正在尝试获取仓库信息',
+    type: 'info',
+  })
   if (!isPropertyValueEmpty(settingsStore.settings, 'token')) {
     await get_repository_info()
     party.confetti(e)
+    ElNotification({
+      title: '提示',
+      message: '仓库信息获取成功',
+      type: 'success',
+    })
   } else {
     ElNotification({
       title: '提示',
@@ -620,5 +625,34 @@ const deleteGit = async (sha, filename, e) => {
 }
 .v_btn:hover{
   scale: 1.1;
+}
+.heartBeat{
+  margin-right: 0.5vw;
+  margin-left: 0.5vw;
+  width: 20px;
+  animation: heartBeat 3s infinite alternate;
+}
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.ft_link{
+  color: #34495e;
+  margin-left: 0.5vw;
+  text-decoration: none;
+  font-size: larger;
 }
 </style>

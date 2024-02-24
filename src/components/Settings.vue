@@ -1,5 +1,5 @@
 <template>
-  <el-row class="glass settings" v-loading.fullscreen.lock="loading">
+  <el-row class="glass settings">
     <el-col :span="24">
       <el-row>
         <el-col :span="24">
@@ -156,7 +156,7 @@
         </el-col>
       </el-row>
     </el-col>
-    <el-drawer v-model="show_add" title="添加Front-Matter项目" z-index="9999" style="border-radius: 20px" :modal="false"
+    <el-drawer v-model="show_add" title="添加Front-Matter项目" :z-index="9999" style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;" :modal="false"
                :with-header="true">
       <span class="settings_sub_label">显示名称</span><br>
       <input type="text" v-model="frontMatter.label" placeholder="请输入" class="input_style"/>
@@ -204,6 +204,7 @@ import party from "party-js";
 import {useTreeStore} from "../stores/treeStore.js";
 import {ElNotification, ElMessageBox} from 'element-plus';
 import {myFetch} from "../utils/my_fetch.js";
+import {useSystemStore} from "../stores/systemStore.js";
 
 const get_tree = inject("get_tree")
 const repo = ref('')
@@ -215,7 +216,6 @@ const sub_repo = ref('')
 const tip_color = ref('#00d0ff')
 const root = ref('')
 const options = ref([])
-const loading = ref(true)
 const cascader_prop = {
   checkStrictly: true,
   emitPath: false
@@ -228,6 +228,7 @@ const frontMatters = ref([])
 const settingsStore = useSettingsStore()
 const userStore = useUserStore()
 const treeStore = useTreeStore()
+const systemStore = useSystemStore()
 
 
 onBeforeMount(() => {
@@ -248,7 +249,7 @@ onBeforeMount(() => {
   }
 })
 onMounted(()=>{
-  loading.value = false
+  systemStore.loading = false
 })
 const get_branches = async (e) => {
   if (repo.value !== null && repo.value !== '' && token.value !== null && token.value !== '') {

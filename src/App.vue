@@ -1,12 +1,12 @@
 <template>
-  <el-container>
+  <el-container >
     <el-aside style="border-radius: 20px;"><Side/></el-aside>
     <el-container>
       <el-header><Nav /></el-header>
       <el-main>
 
         <!--        <router-view ></router-view>-->
-        <router-view v-slot="{ Component }">
+        <router-view v-slot="{ Component }" v-loading.fullscreen.lock="systemStore.loading" element-loading-text="加载中...">
           <transition name="scale" mode="out-in">
             <component :is="Component" />
           </transition>
@@ -19,7 +19,7 @@
 <script setup>
 import Side from  './components/Side.vue';
 import Nav from  './components/Nav.vue';
-import {onBeforeMount, watch,provide} from "vue";
+import {onBeforeMount, watch, provide, onMounted} from "vue";
 import {useUserStore} from "./stores/userStore";
 import { useRouter } from "vue-router";
 import {useSystemStore} from "./stores/systemStore";
@@ -40,6 +40,7 @@ function isPropertyValueEmpty(obj, property) {
 }
 
 onBeforeMount(() => {
+  systemStore.loading = true
   if (localStorage.getItem("user_info")!== null){
     userStore.set_user_info(JSON.parse(localStorage.getItem("user_info")))
   }
@@ -48,18 +49,24 @@ onBeforeMount(() => {
   }
   // get_tree()
 })
+onMounted(() => {
+  systemStore.loading = false
+})
 watch(() => router.currentRoute.value, (newVal, oldVal) =>{
   if (newVal !== oldVal){
-    systemStore.set_now_page(newVal.path)
+    systemStore.set_now_page(newVal.name)
+    systemStore.loading = true
   }
 })
 
-const get_tree = async () => {
-  ElNotification({
-    title: '提示',
-    message: '正在尝试获取文件列表',
-    type: 'info',
-  })
+const get_tree = async (showTips = true) => {
+  if (showTips){
+    ElNotification({
+      title: '提示',
+      message: '正在尝试获取文件列表',
+      type: 'info',
+    })
+  }
   if (!isPropertyValueEmpty(settingsStore.settings,'token')){
 
     let url = "https://api.github.com/repos/"+settingsStore.settings.sub_repo+"/git/trees/"+settingsStore.settings.branch
@@ -79,11 +86,13 @@ const get_tree = async () => {
           children: resultTree
         }]
         treeStore.set_tree_info(tree)
-        ElNotification({
-          title: '成功',
-          message: '成功获取文件列表',
-          type: 'success',
-        })
+        if (showTips){
+          ElNotification({
+            title: '成功',
+            message: '成功获取文件列表',
+            type: 'success',
+          })
+        }
       } catch (error) {
         console.error(error.message);
       }

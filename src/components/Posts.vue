@@ -1,5 +1,5 @@
 <template>
-  <el-row style="margin-top: 2vh;" v-loading.fullscreen.lock="loading">
+  <el-row style="margin-top: 2vh;">
     <el-col :span="7">
       <el-row>
         <el-col :span="11" >
@@ -132,6 +132,7 @@ import party from "party-js";
 import {useRoute} from 'vue-router';
 import {useSettingsStore} from "../stores/settingsStore.js";
 import {myFetch} from "../utils/my_fetch.js";
+import {useSystemStore} from "../stores/systemStore.js";
 
 const {query} = useRoute();
 const show_settings_edit = ref(false)
@@ -255,13 +256,14 @@ const show_edit = ref(false)
 const file_info = ref({})
 
 const settingsStore = useSettingsStore()
+const systemStore = useSystemStore()
 
 const sha = ref('')
 
 const local_front_matter = ref({})
-const loading = ref(true)
 
 onMounted(async () =>{
+  systemStore.loading = false
   local_front_matter.value = JSON.parse(localStorage.getItem("front_matter"))
   if (query.filename && !query.url){
     const drafts = JSON.parse(localStorage.getItem("drafts"))
@@ -320,7 +322,6 @@ onMounted(async () =>{
       file_info.value[local_front_matter.value[i].key] = local_front_matter.value[i].default
     }
   }
-  loading.value = false
 })
 
 const newPost = () => {
