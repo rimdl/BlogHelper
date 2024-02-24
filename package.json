@@ -1,7 +1,7 @@
 {
   "name": "bloghelper",
   "private": true,
-  "version": "24.02.24_1",
+  "version": "v24.02.24_1",
   "type": "module",
   "scripts": {
     "dev": "vite",
