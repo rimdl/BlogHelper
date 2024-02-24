@@ -630,23 +630,14 @@ const deleteGit = async (sha, filename, e) => {
   margin-right: 0.5vw;
   margin-left: 0.5vw;
   width: 20px;
-  animation: heartBeat 3s infinite alternate;
+  animation: heartBeat 2s infinite linear alternate;
 }
 @keyframes heartBeat {
   0% {
-    transform: scale(1);
-  }
-  25% {
-    transform: scale(1.2);
-  }
-  50% {
-    transform: scale(1);
-  }
-  75% {
-    transform: scale(1.2);
+    transform: scale(0.8);
   }
   100% {
-    transform: scale(1);
+    transform: scale(1.2);
   }
 }
 .ft_link{
