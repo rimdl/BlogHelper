@@ -7,8 +7,8 @@
             <el-col :span="12">
               <label class="settings_label">设置</label>
             </el-col>
-            <el-col :span="12" style="text-align: right;display: flex;justify-content: end">
-              <el-button type="primary" round @click="exportSettings">导出</el-button>
+            <el-col :span="12" style="text-align: right;display: flex;justify-content: end;">
+              <el-button type="primary" round @click="exportSettings" style="margin-right: 1vw">导出</el-button>
               <el-upload :show-file-list="false" :http-request="importSettings" multiple :limit="1">
                 <el-button round>导入</el-button>
               </el-upload>
@@ -23,13 +23,12 @@
     <el-col :span="24">
       <el-row>
         <el-col :span="24" style="text-align: center">
-          <label class="settings_sub_label">账户设置</label>
+          <label class="settings_sub_label settings_title">账户设置</label>
         </el-col>
         <el-col :span="24">
           <table>
             <tr>
               <td style="width: 70px">
-                <!--              <el-avatar style="background: transparent" src="/images/github.svg" size="default"/>-->
                 <img alt="error" style="background-size: cover;width: 50px;" src="/images/github.svg"/>
               </td>
               <td style="width: 90%;">
@@ -47,7 +46,7 @@
               </td>
               <td style="width: 90%;">
                 <span class="settings_sub_label">token</span><br>
-                <input type="text" v-model="token" placeholder="从Github获取" class="input_style"/>
+                <input type="password" v-model="token" placeholder="从Github获取" class="input_style"/>
               </td>
             </tr>
           </table>
@@ -56,8 +55,7 @@
           <table>
             <tr>
               <td style="width: 70px">
-                <!--              <el-avatar style="background: transparent" src="/images/branch.svg" size="default"/>-->
-                <img alt="error" style="background-size: cover;width: 50px;" src="/images/branch.svg"/>
+                <img alt="error" style="background-size: cover;width: 50px;background: white" src="/images/branch.svg"/>
               </td>
               <td style="width: 90%;">
                 <span class="settings_sub_label">代码分支</span>
@@ -67,7 +65,7 @@
                 <el-select
                     v-model="branch"
                     class="m-2"
-                    placeholder="Select"
+                    placeholder="请选择"
                     size="small"
                     style="width: 10vw"
                 >
@@ -93,7 +91,7 @@
     <el-col :span="24">
       <el-row>
         <el-col :span="24" style="text-align: center">
-          <label class="settings_sub_label">其他设置</label>
+          <label class="settings_sub_label settings_title">其他设置</label>
         </el-col>
         <el-col :span="24" v-if="!settingsStore.settings.token">
           <el-empty description="用户信息还未设置，无法设置此处内容" :image-size="60"/>
@@ -111,7 +109,7 @@
                    @click="get_tree">刷新目录</a>
                 <br>
                 <el-cascader v-model="root" :options="treeStore.tree_info" size="small" :props="cascader_prop"
-                             @change="handleRootChange($event)" clearable filterable/>
+                             @change="handleRootChange($event)" placeholder="请选择" clearable filterable/>
                 <el-button @click="save_other_settings($event)" size="small" round style="margin-left: 1vw">保存
                 </el-button>
                 <br>
@@ -131,9 +129,8 @@
                   添加
                 </el-button>
                 <br>
-
-
-                <el-table :data="frontMatters" :height="250">
+                <br>
+                <el-table :data="frontMatters" :height="250" style="border-radius: 10px;">
                   <el-table-column prop="label" label="显示名称"/>
                   <el-table-column prop="key" label="key"/>
                   <el-table-column prop="type" label="类型"/>
@@ -164,7 +161,7 @@
       <span class="settings_sub_label">显示名称</span><br>
       <input type="text" v-model="frontMatter.label" placeholder="请输入" class="input_style"/>
       <br>
-      <span class="settings_sub_label">key</span><br>
+      <span class="settings_sub_label">key <span style="color: orangered">*</span></span><br>
       <input type="text" v-model="frontMatter.key" placeholder="请输入" class="input_style"/>
       <br>
       <span class="settings_sub_label">类型</span><br>
@@ -192,7 +189,7 @@
       <el-button style="width: 100%;" v-if="frontMatter.key" type="success" @click="save_front_matter">保存</el-button>
       <template #footer>
         <div style="flex: auto">
-          <el-button @click="show_add = !show_add">取消</el-button>
+          <el-button @click="show_add = !show_add" round>取消</el-button>
         </div>
       </template>
     </el-drawer>
@@ -572,5 +569,9 @@ const importSettings = (content) => {
 .flex_table {
   flex-grow: 1;
 }
-
+.settings_title{
+  padding: 10px;
+  border-bottom: lightgray 1px solid;
+  border-radius: 10px;
+}
 </style>

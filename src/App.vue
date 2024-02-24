@@ -5,7 +5,7 @@
       <el-header><Nav /></el-header>
       <el-main>
 
-<!--        <router-view ></router-view>-->
+        <!--        <router-view ></router-view>-->
         <router-view v-slot="{ Component }">
           <transition name="scale" mode="out-in">
             <component :is="Component" />

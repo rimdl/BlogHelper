@@ -1,6 +1,6 @@
 <template>
   <el-row style="margin-top: 2vh;" v-loading.fullscreen.lock="loading">
-    <el-col :span="7" >
+    <el-col :span="7">
       <el-row>
         <el-col :span="11" >
           <el-row class="glass myBtn" @click="newPost">
@@ -57,7 +57,8 @@
             <el-row>
               <el-col :span="24" v-for="(item,index) in local_front_matter" style="margin-top: 1vh;" :key="index">
             <el-row>
-              <el-col :span="6">
+              <el-col :span="6" class="edit_label">
+                <img src="../../public/images/dot.svg" style="width: 20px" alt="">
                 <label class="sub_label">{{item.label}}</label>
               </el-col>
               <el-col :span="18">
@@ -516,6 +517,9 @@ watch(()=>file_info.value,(nv)=>{
   if (nv.filename){
     saveFileInfo()
   }
+  else {
+    show_edit.value = false
+  }
 },{
   deep: true,
 })
@@ -612,5 +616,13 @@ watch(()=>file_info.value,(nv)=>{
   border: none;
   font-family: Arial;
   overflow: scroll;
+}
+.edit_label{
+  display: flex;
+  align-items: center;
+  transition: 0.5s;
+}
+.edit_label:hover{
+  transform: translateY(-2px);
 }
 </style>
