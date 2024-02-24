@@ -38,6 +38,16 @@
         </router-link>
       </el-row>
 
+      <div style="position: absolute;bottom: 1vh;width: 100%;">
+        <el-row style="padding: 10px">
+          <el-col :span-24 class="help_btn">
+            <a href="https://github.com/rimdl/BlogHelper" style="text-decoration: none;color: #2c3e50;font-weight: bolder" target="_blank">
+              需要帮助？
+            </a>
+          </el-col>
+        </el-row>
+      </div>
+
     </el-col>
   </el-row>
 </template>
@@ -107,5 +117,16 @@
   background: rgba(255, 255, 255, 0.8);
   color: rgba(39, 39, 47);
   border-radius: 10px;
+}
+.help_btn{
+  text-align: center;
+  background: rgba(255,255,255,0.5);
+  padding: 10px;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+.help_btn:hover{
+  box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.1);
+  scale: 1.01;
 }
 </style>
