@@ -249,7 +249,7 @@ onBeforeMount(() => {
   }
 })
 onMounted(()=>{
-  systemStore.loading = false
+  systemStore.set_loading(false)
 })
 const get_branches = async (e) => {
   if (repo.value !== null && repo.value !== '' && token.value !== null && token.value !== '') {

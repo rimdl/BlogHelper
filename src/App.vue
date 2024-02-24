@@ -40,7 +40,7 @@ function isPropertyValueEmpty(obj, property) {
 }
 
 onBeforeMount(() => {
-  systemStore.loading = true
+  systemStore.set_loading(true)
   if (localStorage.getItem("user_info")!== null){
     userStore.set_user_info(JSON.parse(localStorage.getItem("user_info")))
   }
@@ -50,12 +50,12 @@ onBeforeMount(() => {
   // get_tree()
 })
 onMounted(() => {
-  systemStore.loading = false
+  systemStore.set_loading(false)
 })
 watch(() => router.currentRoute.value, (newVal, oldVal) =>{
   if (newVal !== oldVal){
     systemStore.set_now_page(newVal.name)
-    systemStore.loading = true
+    systemStore.set_loading(true)
   }
 })
 

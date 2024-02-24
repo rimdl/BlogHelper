@@ -281,7 +281,7 @@
               </el-row>
             </el-col>
             <el-col :span="24" v-if="fileList.length === 0">
-              <el-empty image-size="100" description="没有数据"/>
+              <el-empty :image-size="100" description="没有数据"/>
             </el-col>
           </el-row>
         </el-col>
@@ -332,7 +332,7 @@
               </el-row>
             </el-col>
             <el-col :span="24" v-if="drafts.length === 0">
-              <el-empty image-size="100" description="没有数据"/>
+              <el-empty :image-size="100" description="没有数据"/>
             </el-col>
           </el-row>
         </el-col>
@@ -394,7 +394,7 @@ function isPropertyValueEmpty(obj, property) {
 
 const get_tree = inject("get_tree")
 onMounted(() => {
-  systemStore.loading = false
+  systemStore.set_loading(false)
   if (!isPropertyValueEmpty(settingsStore.settings, 'token')) {
     get_tree(false)
     get_repository_info()
