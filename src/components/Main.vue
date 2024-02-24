@@ -2,10 +2,14 @@
   <el-row style="padding:10px;border-radius: 20px">
     <el-col :span="24">
       <el-row>
-        <el-col :span="11" class="glass" style="border-radius: 20px;padding: 10px">
+        <el-col :span="6" class="glass welcome" :style="welcome_style">
+          <span class="welcome_label" v-if="settingsStore.settings.token">欢迎回来，{{ userStore.user_info.name }}</span>
+          <span class="welcome_label" v-else>未获取到用户信息</span>
+        </el-col>
+        <el-col :span="8" :offset="1" class="glass" style="border-radius: 20px;padding: 10px">
           <el-row>
             <el-col :span="24">
-              <span class="main_label">当前用户信息</span>
+              <span class="main_label">用户信息</span>
             </el-col>
             <el-col :span="24">
               <el-divider border-style="dashed"/>
@@ -17,25 +21,25 @@
             </el-col>
           </el-row>
           <el-row v-if="settingsStore.settings.token">
-            <el-col :span="8" style="text-align: center;border-right: 1px lightgray solid">
+            <el-col :span="8" style="text-align: center;border-right: 1px lightgray solid;">
               <el-avatar @error="errorHandler" :src="userStore.user_info.avatar_url" style="background: white;"
-                         :size="50">
+                         :size="78">
                 <img
                     src="/images/errorimg.svg"
                     alt="error"
                 />
               </el-avatar>
               <br>
-              <span class="sub_label">{{ userStore.user_info.name }}</span>
-              <br>
-              <span class="sub_label">{{ userStore.user_info.email }}</span>
-              <br>
-
-              <a :href="userStore.user_info.html_url" target="_blank">
-                <el-button size="small" round>转到GitHub</el-button>
-              </a>
+              <span class="sub_label user_email">{{ userStore.user_info.email }}</span>
+              <p style="text-align: center">
+                <a :href="userStore.user_info.html_url" target="_blank">
+                  <el-button size="small" class="btn_github" round><img src="../../public/images/github_2.svg"
+                                                                        style="width: 16px;margin-right: 5px" alt="">我的GitHub
+                  </el-button>
+                </a>
+              </p>
             </el-col>
-            <el-col :span="16" style="padding: 10px">
+            <el-col :span="16" style="padding: 10px" class="userinfo_right">
               <span class="sub_label">公开仓库：</span><span
                 style="font-size: x-small">{{ userStore.user_info.public_repos }}</span>
               <br>
@@ -44,22 +48,30 @@
               <br>
               <span class="sub_label">个人说明：</span><span
                 style="font-size: x-small">{{ userStore.user_info.bio }}<span v-if="!userStore.user_info.bio"
-                                                                              style="font-size: xx-small;color: gray">什么都没说......</span></span>
+                                                                              style="font-size: xx-small;color: gray">......</span></span>
               <br>
               <span class="sub_label">个人博客：</span><span
                 style="font-size: x-small">{{ userStore.user_info.blog }}<span v-if="!userStore.user_info.blog"
-                                                                               style="font-size: xx-small;color: gray">什么都没有......</span></span>
+                                                                               style="font-size: xx-small;color: gray">......</span></span>
               <br>
-              <span class="sub_label">我的公司：</span><span style="font-size: x-small">{{ userStore.user_info.company }}<span
-                v-if="!userStore.user_info.company"
-                style="font-size: xx-small;color: gray">什么都没有......</span></span>
-              <br>
-              <span class="sub_label">followers:{{ userStore.user_info.followers }}</span>
-              <span style="margin-left: 1vw" class="sub_label">following:{{ userStore.user_info.following }}</span>
+
+              <p class="follower_main">
+                <span class="follower">
+                <img src="../../public/images/followers.svg" style="width: 20px;" alt="">
+                <span class="sub_label" style="margin-left: 5px">followers: <span
+                    style="font-weight: bolder;font-size: larger">{{ userStore.user_info.followers }}</span></span>
+              </span>
+                <span class="follower">&nbsp;&nbsp;&nbsp;</span>
+                <span class="follower">
+                <img src="../../public/images/following.svg" style="width: 20px;" alt="">
+                <span class="sub_label" style="margin-left: 5px">following: <span
+                    style="font-weight: bolder;font-size: larger">{{ userStore.user_info.following }}</span></span>
+              </span>
+              </p>
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="11" :offset="2" class="glass" style="border-radius: 20px;padding: 10px">
+        <el-col :span="8" :offset="1" class="glass" style="border-radius: 20px;padding: 10px">
           <el-row>
             <el-col :span="24">
               <el-row>
@@ -67,7 +79,8 @@
                   <span class="main_label">当前仓库信息</span>
                 </el-col>
                 <el-col :span="12" style="text-align: right">
-                  <img @click="reget_repo($event)" src="/images/refresh.svg" class="refresh_btn" style="width: 20px" alt="">
+                  <img @click="reget_repo($event)" src="/images/refresh.svg" class="refresh_btn" style="width: 20px"
+                       alt="">
                 </el-col>
               </el-row>
             </el-col>
@@ -82,28 +95,44 @@
           </el-row>
           <el-row v-if="settingsStore.settings.token">
             <el-col :span="24">
-              <span class="sub_label">仓库名称：</span><span
-                style="font-size: x-small">{{ repositoryStore.repository_info.name }}</span>
-              <br>
-              <span class="sub_label">创建时间：</span><span
-                style="font-size: x-small">{{ repositoryStore.repository_info.created_at }}</span>
-              <br>
+              <p class="repo_main">
+              <span class="repo_span">
+                <img src="../../public/images/repo.svg" style="width: 20px;" alt="">
+                <span class="sub_label" style="margin-left: 5px">仓库名称：</span><span
+                  style="font-size: x-small;font-weight: bolder">{{ repositoryStore.repository_info.name }}</span>
+              </span>
+                <span class="repo_span">
+                <img src="../../public/images/private.svg" style="width: 20px;" alt="">
+                <span class="sub_label" style="margin-left: 5px">私有仓库：</span><span
+                    style="font-size: x-small;font-weight: bolder">{{ repositoryStore.repository_info.private }}</span>
+              </span>
+              </p>
+                <span class="repo_span_2">
+                  <img src="../../public/images/time.svg" style="width: 20px;" alt="">
+                  <span class="sub_label">创建时间：</span><span
+                    style="font-size: x-small">{{ repositoryStore.repository_info.created_at }}</span>
+                </span>
+                <span class="repo_span_2">
+                   <img src="../../public/images/desc.svg" style="width: 20px;" alt="">
+                  <span class="sub_label">仓库描述：</span><span
+                    style="font-size: x-small">{{ repositoryStore.repository_info.description }}<span
+                    v-if="!repositoryStore.repository_info.description"
+                    style="font-size: xx-small;color: gray">......</span></span>
+              </span>
+                <span class="repo_span_2">
+                <img src="../../public/images/link_2.svg" style="width: 20px;" alt="">
               <span class="sub_label">克隆地址：</span><span
-                style="font-size: x-small">{{ repositoryStore.repository_info.clone_url }}</span>
-              <br>
-              <span class="sub_label">仓库描述：</span><span
-                style="font-size: x-small">{{ repositoryStore.repository_info.description }}<span
-                v-if="!repositoryStore.repository_info.description"
-                style="font-size: xx-small;color: gray">没有描述......</span></span>
-              <br>
-              <span class="sub_label">是否私有：</span><span
-                style="font-size: x-small">{{ repositoryStore.repository_info.private }}</span>
-              <br>
+                    style="font-size: x-small">{{ repositoryStore.repository_info.clone_url }}</span>
+              </span>
+                <span class="repo_span_2">
+                <img src="../../public/images/link_3.svg" style="width: 20px;" alt="">
               <span class="sub_label">仓库地址：</span><span
-                style="font-size: x-small">{{ repositoryStore.repository_info.url }}</span>
+                    style="font-size: x-small">{{ repositoryStore.repository_info.url }}</span>
+              </span>
             </el-col>
           </el-row>
         </el-col>
+
       </el-row>
 
       <el-row style="margin-top: 2vh">
@@ -121,11 +150,12 @@
             </el-col>
             <el-col :span="24" style="text-align: center">
               <el-button round style="background: rgba(255,255,255,0.5)" class="v_btn">
-              <router-link to="/posts" style="text-decoration: none">
-                <label class="bl_sub_label" style="cursor: pointer;display: flex;align-items: center;justify-content: center">
-                  <img src="../../public/images/pointer.svg" style="width: 30px" alt="">
-                  &nbsp;去写作</label>
-              </router-link>
+                <router-link to="/posts" style="text-decoration: none">
+                  <label class="bl_sub_label"
+                         style="cursor: pointer;display: flex;align-items: center;justify-content: center">
+                    <img src="../../public/images/pointer.svg" style="width: 30px" alt="">
+                    &nbsp;去写作</label>
+                </router-link>
               </el-button>
             </el-col>
           </el-row>
@@ -142,17 +172,18 @@
               <span class="bl_sub_label">系统设置</span>
             </el-col>
             <el-col :span="24" style="text-align: center">
-              <el-button round style="background: rgba(255,255,255,0.5)"  class="v_btn">
-              <router-link to="/settings" style="text-decoration: none">
-                <label class="bl_sub_label" style="cursor: pointer;display: flex;align-items: center;justify-content: center">
-                  <img src="../../public/images/settings_4.svg" style="width: 20px" alt="">
-                  &nbsp;点击前往设置页面</label>
-              </router-link>
+              <el-button round style="background: rgba(255,255,255,0.5)" class="v_btn">
+                <router-link to="/settings" style="text-decoration: none">
+                  <label class="bl_sub_label"
+                         style="cursor: pointer;display: flex;align-items: center;justify-content: center">
+                    <img src="../../public/images/settings_4.svg" style="width: 20px" alt="">
+                    &nbsp;点击前往设置页面</label>
+                </router-link>
               </el-button>
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="5" :offset="2" class="glass bl4">
+        <el-col :span="5" :offset="1" class="glass bl4">
           <el-row>
             <el-col :span="10">
               <!--              <el-avatar :size="50" src="/images/github.svg" style="background: white"/>-->
@@ -165,9 +196,10 @@
               <span class="bl_sub_label">访问我的GitHub主页</span>
             </el-col>
             <el-col :span="24" style="text-align: center">
-              <el-button round style="background: rgba(255,255,255,0.5)"  class="v_btn">
+              <el-button round style="background: rgba(255,255,255,0.5)" class="v_btn">
                 <a :href="userStore.user_info.html_url" style="text-decoration: none" target="_blank">
-                  <label class="bl_sub_label" style="cursor: pointer;display: flex;align-items: center;justify-content: center">
+                  <label class="bl_sub_label"
+                         style="cursor: pointer;display: flex;align-items: center;justify-content: center">
                     <img src="../../public/images/br.svg" style="width: 25px" alt="">
                     &nbsp;{{ userStore.user_info.name }}</label>
                 </a>
@@ -175,7 +207,7 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="5" :offset="1" class="glass bl2">
+        <el-col :span="6" :offset="1" class="glass bl2">
           <el-row>
             <el-col :span="10">
               <!--              <el-avatar :size="50" src="/images/github.svg" style="background: white"/>-->
@@ -185,15 +217,16 @@
             <el-col :span="14" style="text-align: right">
               <label class="bl_main_label">项目代码</label>
               <br>
-              <span class="bl_sub_label">查看本项目代码</span>
+              <span class="bl_sub_label">查看BlogHelper代码</span>
             </el-col>
             <el-col :span="24" style="text-align: center">
-              <el-button round style="background: rgba(255,255,255,0.5)" class="v_btn" >
-              <a href="https://github.com/rimdl/BlogHelper" style="text-decoration: none" target="_blank">
-                <label class="bl_sub_label" style="cursor: pointer;display: flex;align-items: center;justify-content: center">
-                  <img src="../../public/images/visit.svg" style="width: 25px" alt="">
-                  &nbsp;github</label>
-              </a>
+              <el-button round style="background: rgba(255,255,255,0.5)" class="v_btn">
+                <a href="https://github.com/rimdl/BlogHelper" style="text-decoration: none" target="_blank">
+                  <label class="bl_sub_label"
+                         style="cursor: pointer;display: flex;align-items: center;justify-content: center">
+                    <img src="../../public/images/visit.svg" style="width: 25px" alt="">
+                    &nbsp;github</label>
+                </a>
               </el-button>
             </el-col>
           </el-row>
@@ -201,7 +234,7 @@
       </el-row>
 
       <el-row style="margin-top: 2vh">
-        <el-col :span="11" class="glass" style="padding: 10px;border-radius: 20px">
+        <el-col :span="12" class="glass" style="padding: 10px;border-radius: 20px">
           <el-row>
             <el-col :span="24">
               <el-row>
@@ -209,7 +242,7 @@
                   <label class="main_label">已发布文章</label>
                 </el-col>
                 <el-col :span="12" style="text-align: right">
-<!--                  <el-button @click="get_tree" round size="small">刷新</el-button>-->
+                  <!--                  <el-button @click="get_tree" round size="small">刷新</el-button>-->
                   <img @click="get_tree" src="/images/refresh.svg" class="refresh_btn" style="width: 20px" alt="">
                 </el-col>
               </el-row>
@@ -224,22 +257,24 @@
                 <el-col :span="20">
                   <router-link
                       :to="'/read?url='+item.value.url" style="text-decoration: none">
-                  <el-tag round effect="dark">{{ index + 1 }}</el-tag>
-                  <span class="main_label" title="点击阅读" >&nbsp;&nbsp;{{ item.label.substring(item.label.indexOf('_post') + 7) }}</span>
+                    <el-tag round effect="dark">{{ index + 1 }}</el-tag>
+                    <span class="main_label" title="点击阅读">&nbsp;&nbsp;{{
+                        item.label.substring(item.label.indexOf('_post') + 7)
+                      }}</span>
                   </router-link>
                 </el-col>
                 <el-col :span="4" style="text-align: right">
                   <el-tooltip content="编辑" placement="top" effect="light">
                     <router-link
                         :to="'/posts?filename='+item.label.substring(item.label.indexOf('_post') + 7)+'&url='+item.value.url">
-                      <el-avatar :size="30" style="background: white" src="/images/edit.svg"/>
+                      <el-avatar :size="30" class="edit_svg" style="background: white" src="/images/edit.svg"/>
                     </router-link>
                   </el-tooltip>
 
                   <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
                                  @confirm="deleteGit(item.sha,item.label.substring(item.label.indexOf('_post') + 7),$event)">
                     <template #reference>
-                        <el-avatar :size="30" style="background: white;margin-left: 1vw" src="/images/delete.svg"/>
+                      <el-avatar class="remove_svg" title="删除" :size="30" style="background: white;margin-left: 1vw" src="/images/delete.svg"/>
                     </template>
                   </el-popconfirm>
                 </el-col>
@@ -250,12 +285,20 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="11" :offset="2" class="glass" style="border-radius: 20px;padding: 10px">
+        <el-col :span="11" :offset="1" class="glass" style="border-radius: 20px;padding: 10px">
           <el-row>
             <el-col :span="24">
               <el-row>
                 <el-col :span="18">
                   <label class="main_label">草稿箱</label>
+                </el-col>
+                <el-col :span="6" style="text-align: right">
+                  <el-popconfirm title="确认清空草稿箱?" @confirm="clearDrafts" confirm-button-text="清空" cancel-button-text="取消">
+                    <template #reference>
+                      <img title="清空草稿箱" src="../../public/images/clear.svg" class="clear_btn" style="width: 20px;" alt="">
+                    </template>
+                  </el-popconfirm>
+
                 </el-col>
               </el-row>
 
@@ -274,16 +317,16 @@
                 <el-col :span="4" style="text-align: right">
                   <el-tooltip content="编辑" placement="top" effect="light">
                     <router-link :to="'/posts?filename='+item.filename">
-                      <el-avatar :size="30" style="background: white" src="/images/edit.svg"/>
+                      <el-avatar class="edit_svg" :size="30" style="background: white" src="/images/edit.svg"/>
                     </router-link>
                   </el-tooltip>
 
-                    <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
-                                   @confirm="deleteDraft(item.filename)">
-                      <template #reference>
-                        <el-avatar :size="30" style="background: white;margin-left: 1vw" src="/images/delete.svg"/>
-                      </template>
-                    </el-popconfirm>
+                  <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
+                                 @confirm="deleteDraft(item.filename)">
+                    <template #reference>
+                      <el-avatar class="remove_svg" title="删除" :size="30" style="background: white;margin-left: 1vw" src="/images/delete.svg"/>
+                    </template>
+                  </el-popconfirm>
 
                 </el-col>
               </el-row>
@@ -299,12 +342,20 @@
       <p style="font-weight: bolder;font-size: larger;">
         <img src="../../public/images/bloghelper.svg" style="width: 100px" alt="">
       </p>
-      <span style="font-size: smaller;color: #34495e;font-weight: bolder">本项目开源地址：<a href="https://github.com/rimdl/BlogHelper" target="_blank">Github</a></span>
+      <span style="font-size: smaller;color: #34495e;font-weight: bolder">本项目开源地址：<a
+          href="https://github.com/rimdl/BlogHelper" target="_blank">Github</a></span>
       &nbsp;
-      <span style="font-size: smaller;color: #34495e;font-weight: bolder">您可在此处反馈问题：<a href="https://github.com/rimdl/BlogHelper/issues" target="_blank">issues</a></span>
+      <span style="font-size: smaller;color: #34495e;font-weight: bolder">您可在此处反馈问题：<a
+          href="https://github.com/rimdl/BlogHelper/issues" target="_blank">issues</a></span>
       <br>
-      <span style="font-size: smaller;color: #34495e;font-weight: bolder;display: flex;align-items: center;justify-content: center">© 2023-{{ current_year }} <span><img src="../../public/images/heart.svg" class="heartBeat" alt=""></span> BlogHelper, <a class="ft_link" href="https://github.com/rimdl">@xinsi.</a></span>
-      <a style="font-size: smaller;color: #34495e;font-weight: bolder;text-decoration: none" :href="'https://github.com/rimdl/BlogHelper/releases/tag/'+config.version" target="_blank">Release: {{ config.version }}</a>
+      <span
+          style="font-size: smaller;color: #34495e;font-weight: bolder;display: flex;align-items: center;justify-content: center">© 2023-{{
+          current_year
+        }} <span><img src="../../public/images/heart.svg" class="heartBeat" alt=""></span> BlogHelper, <a
+            class="ft_link" href="https://github.com/rimdl">@xinsi.</a></span>
+      <a style="font-size: smaller;color: #34495e;font-weight: bolder;text-decoration: none"
+         :href="'https://github.com/rimdl/BlogHelper/releases/tag/'+config.version" target="_blank">Release:
+        {{ config.version }}</a>
     </el-col>
     <el-col :span="24">
     </el-col>
@@ -335,6 +386,7 @@ const fileList = ref([])
 const drafts = ref([])
 const current_year = ref("")
 const loading = ref(true)
+const welcome_style = ref("")
 
 function isPropertyValueEmpty(obj, property) {
   return obj[property] === undefined || obj[property] === null || (typeof obj[property] === 'string' && obj[property].trim() === '');
@@ -348,8 +400,7 @@ onMounted(() => {
     get_repository_info()
     getPostFile()
     getDrafts()
-  }
-  else {
+  } else {
     ElMessageBox({
       title: '提示',
       message: '<strong>本地未获取到配置信息，请前往<a href="/settings">设置</a>页面进行配置。</strong>',
@@ -362,6 +413,7 @@ onMounted(() => {
   }
   current_year.value = new Date().getFullYear()
   loading.value = false
+  welcome_style.value = `background-image: url('${userStore.user_info.avatar_url}');background-size: cover;`
 })
 
 
@@ -487,6 +539,16 @@ const deleteGit = async (sha, filename, e) => {
     })
   }
 }
+
+const clearDrafts = () => {
+  localStorage.removeItem("drafts")
+  drafts.value = []
+  ElNotification({
+    title: '提示',
+    message: '已经清空啦',
+    type: 'success',
+  })
+}
 </script>
 
 <style scoped>
@@ -499,6 +561,26 @@ const deleteGit = async (sha, filename, e) => {
   font-weight: bolder;
   color: rgba(93, 106, 137);
   font-size: smaller;
+}
+
+.user_name {
+  font-size: larger;
+}
+
+.user_email {
+  opacity: 0.8;
+}
+
+.btn_github {
+  padding: 10px;
+  font-weight: bold;
+  color: white;
+  background: #4318ff;
+  transition: all 0.5s;
+}
+
+.btn_github:hover {
+  transform: translateY(-2px);
 }
 
 .preview_post {
@@ -547,7 +629,7 @@ const deleteGit = async (sha, filename, e) => {
   padding: 10px;
   //background: #e8faea;
   //background: linear-gradient(90deg, rgba(99, 230, 179, 1) 0%, rgba(68, 228, 141, 1) 50%, rgba(44, 225, 105, 1) 100%);
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   transition: 0.5s;
 }
 
@@ -557,25 +639,27 @@ const deleteGit = async (sha, filename, e) => {
   padding: 10px;
   //background: rgb(52, 181, 231);
   //background: linear-gradient(90deg, rgba(52, 181, 231, 1) 0%, rgba(49, 158, 228, 1) 50%, rgba(44, 134, 225, 1) 100%);
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   transition: 0.5s;
 }
+
 .bl3 {
   border: none;
   border-radius: 10px;
   padding: 10px;
   //background: rgb(219,226,52);
   //background: linear-gradient(90deg, rgba(219,226,52,1) 0%, rgba(46,219,226,1) 100%);
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   transition: 0.5s;
 }
+
 .bl4 {
   border: none;
   border-radius: 10px;
   padding: 10px;
   //background: rgb(219,226,52);
   //background: linear-gradient(90deg, rgba(219,226,52,1) 0%, rgba(46,219,226,1) 100%);
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   transition: 0.5s;
 }
 
@@ -586,6 +670,7 @@ const deleteGit = async (sha, filename, e) => {
 .bl2:hover {
   transform: translateY(-3px);
 }
+
 .bl3:hover {
   transform: translateY(-3px);
 }
@@ -603,35 +688,41 @@ const deleteGit = async (sha, filename, e) => {
   color: #2c3e50;
   font-weight: bolder;
   font-size: smaller;
+  opacity: 0.8;
 }
 
-.refresh_btn{
+.refresh_btn {
   cursor: pointer;
   transition: 0.5s;
 }
 
-.refresh_btn:hover{
+.refresh_btn:hover {
   transform: rotate(180deg);
 }
-.main_footer{
+
+.main_footer {
   padding: 10px;
   margin-top: 1vh;
   text-align: center;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
 }
-.v_btn{
+
+.v_btn {
   transition: 0.5s;
 }
-.v_btn:hover{
+
+.v_btn:hover {
   scale: 1.1;
 }
-.heartBeat{
+
+.heartBeat {
   margin-right: 0.5vw;
   margin-left: 0.5vw;
   width: 20px;
   animation: heartBeat 2s infinite linear alternate;
 }
+
 @keyframes heartBeat {
   0% {
     transform: scale(0.8);
@@ -640,10 +731,99 @@ const deleteGit = async (sha, filename, e) => {
     transform: scale(1.2);
   }
 }
-.ft_link{
+
+.ft_link {
   color: #34495e;
   margin-left: 0.5vw;
   text-decoration: none;
   font-size: larger;
+}
+
+.welcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: calc(100vh / 24);
+  color: #072552;
+  font-weight: bolder;
+}
+
+.welcome_label {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.follower_main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  padding: 10px;
+  transition: 0.5s;
+}
+.follower_main:hover{
+  box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.1);
+  scale: 1.01;
+}
+
+.follower {
+  display: flex;
+  align-items: center;
+}
+
+.repo_main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  margin-top: -2vh;
+  transition: 0.5s;
+}
+.repo_main:hover{
+  box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.1);
+  scale: 1.01;
+}
+.repo_span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.repo_span_2 {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  margin-top: 1vh;
+}
+.clear_btn{
+  transform-origin: center top;
+  cursor: pointer;
+}
+.clear_btn:hover{
+  animation: shaking linear 1s infinite alternate;
+}
+@keyframes shaking{
+  0%{
+    transform: rotate(15deg);
+  }
+  100%{
+    transform: rotate(-15deg);
+  }
+}
+.edit_svg:hover{
+  animation: shaking linear 0.5s infinite alternate;
+  opacity: 0.7;
+}
+.remove_svg:hover{
+  animation: shaking linear 0.5s infinite alternate;
+  opacity: 0.7;
 }
 </style>

@@ -50,8 +50,8 @@
 <style scoped>
 .side {
   border-radius: 10px;
-  height: 98vh;
-  background: white;
+  height: calc(100vh - 16px);
+  background: rgba(255,255,255,0.8);
 }
 
 .logo {
@@ -102,5 +102,10 @@
 }
 .add:hover{
   transform: rotate(90deg);
+}
+.router-link-active{
+  background: rgba(255, 255, 255, 0.8);
+  color: rgba(39, 39, 47);
+  border-radius: 10px;
 }
 </style>

@@ -2,8 +2,8 @@
   <el-container >
     <el-aside style="border-radius: 20px;"><Side/></el-aside>
     <el-container>
-      <el-header><Nav /></el-header>
-      <el-main>
+      <el-header id="header"><Nav /></el-header>
+      <el-main class="main_container">
 
         <!--        <router-view ></router-view>-->
         <router-view v-slot="{ Component }" v-loading.fullscreen.lock="systemStore.loading" element-loading-text="加载中...">
@@ -192,6 +192,10 @@ provide("extractNodesByPath",extractNodesByPath)
 .scale-leave-to {
   opacity: 0;
   transform: scale(0.9);
+}
+.main_container{
+  max-height: calc(100vh - 86px);
+  overflow-y: scroll;
 }
 
 </style>

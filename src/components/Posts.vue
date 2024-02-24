@@ -2,11 +2,10 @@
   <el-row style="margin-top: 2vh;">
     <el-col :span="7">
       <el-row>
-        <el-col :span="11" >
+        <el-col :span="11">
           <el-row class="glass myBtn" @click="newPost">
             <el-col :span="8" style="padding: 10px">
               <el-avatar shape="square" :size="60" src="/images/new.svg" style="background: transparent" />
-<!--              <img src="/images/new.svg" style="width: 100%" alt="">-->
             </el-col>
             <el-col :span="16" style="padding: 20px;text-align: right">
               <label class="main_label">新建</label>
@@ -53,7 +52,7 @@
           <el-col :span="24">
             <el-divider border-style="dashed"/>
           </el-col>
-          <el-col :span="24" style="max-height: 55vh;overflow-y: scroll">
+          <el-col :span="24" style="overflow-y: scroll;max-height: 63vh">
             <el-row>
               <el-col :span="24" v-for="(item,index) in local_front_matter" style="margin-top: 1vh;" :key="index">
             <el-row>
@@ -97,7 +96,7 @@
       </transition>
     </el-col>
     <transition name="fade-in">
-    <el-col  v-if="show_edit" :span="16" :offset="1"  class="glass" style="border-radius: 20px;padding: 10px;overflow-y: scroll;max-height: 80ch">
+    <el-col  v-if="show_edit" :span="16" :offset="1"  class="glass" style="border-radius: 20px;padding: 10px;overflow-y: scroll;">
       <div>
         <ckeditor5 :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor5>
       </div>
@@ -539,10 +538,11 @@ watch(()=>file_info.value,(nv)=>{
 .myBtn{
   border-radius: 10px;
   cursor: pointer;
+  transition: all 0.5s;
 }
 .myBtn:hover{
   transform: translateY(-1px);
-  background: whitesmoke;
+  background: rgba(255,255,255,0.9);
 }
 .publish_btn{
   background: rgb(198,255,70);
@@ -601,18 +601,18 @@ watch(()=>file_info.value,(nv)=>{
   opacity: 0;
 }
 :deep(.ck.ck-editor__main>.ck-editor__editable){
-  height: 69vh;
+  height: 73vh;
   background: transparent;
   border: none;
 }
 
 :deep(.ck-source-editing-area){
-  height: 69vh;
+  height: 73vh;
   background: transparent;
   border: none;
 }
 :deep(.ck-source-editing-area textarea){
-  height: 69vh;
+  height: 73vh;
   background: transparent;
   border: none;
   font-family: Arial;
@@ -626,4 +626,6 @@ watch(()=>file_info.value,(nv)=>{
 .edit_label:hover{
   transform: translateY(-2px);
 }
+
+
 </style>
