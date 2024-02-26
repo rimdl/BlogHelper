@@ -108,8 +108,8 @@
                 <a style="margin-left: 1vw;color: #66ccff;font-size: smaller;cursor: pointer"
                    @click="get_tree">刷新目录</a>
                 <br>
-                <el-cascader v-model="root" :options="treeStore.tree_info" size="small" :props="cascader_prop"
-                             @change="handleRootChange($event)" placeholder="请选择" clearable filterable/>
+                <el-cascader v-model="root" :options="options" size="small" :props="cascader_prop"
+                              :placeholder="settingsStore.settings.root.path ? settingsStore.settings.root.path : '请选择'" clearable filterable/>
                 <el-button @click="save_other_settings($event)" size="small" round style="margin-left: 1vw">保存
                 </el-button>
                 <br>
@@ -205,6 +205,7 @@ import {useTreeStore} from "../stores/treeStore.js";
 import {ElNotification, ElMessageBox} from 'element-plus';
 import {myFetch} from "../utils/my_fetch.js";
 import {useSystemStore} from "../stores/systemStore.js";
+import {useRouter} from "vue-router";
 
 const get_tree = inject("get_tree")
 const repo = ref('')
@@ -229,6 +230,7 @@ const settingsStore = useSettingsStore()
 const userStore = useUserStore()
 const treeStore = useTreeStore()
 const systemStore = useSystemStore()
+const router = useRouter();
 
 
 onBeforeMount(() => {
@@ -248,8 +250,20 @@ onBeforeMount(() => {
     userStore.set_user_info(JSON.parse(localStorage.getItem("user_info")))
   }
 })
-onMounted(()=>{
+onMounted(async ()=>{
   systemStore.set_loading(false)
+  let front_matter = localStorage.getItem("front_matter")
+  if (front_matter !== null) {
+    frontMatters.value = JSON.parse(front_matter)
+  }
+  if (repo.value !== null && repo.value !== '' && token.value !== null && token.value !== ''){
+    await get_tree(false)
+    let originalData = treeStore.tree_info
+    originalData.forEach(rootNode => {
+      addDisableProperty(rootNode);
+    });
+    options.value = originalData
+  }
 })
 const get_branches = async (e) => {
   if (repo.value !== null && repo.value !== '' && token.value !== null && token.value !== '') {
@@ -293,7 +307,6 @@ watch([() => repo.value, () => treeStore.tree_info], ([newVal, newVal2], [oldVal
       originalData.forEach(rootNode => {
         addDisableProperty(rootNode);
       });
-      options.value = originalData
     }
   }
 })
@@ -312,12 +325,15 @@ const save_settings = (e) => {
     settingsStore.set_settings(settings)
     get_user_info()
     party.confetti(e)
-    ElMessageBox.alert('接下来去设置一下其他内容吧', '成功', {
-      confirmButtonText: '好的',
-      callback: () => {
-
-      },
-    })
+    ElMessageBox.alert(
+        '接下来去设置一下其他内容吧',
+        '成功',
+        {
+          confirmButtonText: '好的',
+          callback: () => {
+            router.go(0)
+          },
+        })
   } else {
     ElNotification({
       title: '错误',
@@ -344,7 +360,6 @@ const get_user_info = async () => {
   }
 }
 
-options.value = treeStore.tree_info
 const handleRootChange = (e) => {
   let settings = JSON.parse(localStorage.getItem("settings"))
   settings.root = {'url': root.value}
@@ -360,6 +375,7 @@ const save_other_settings = (e) => {
   let settings = JSON.parse(localStorage.getItem("settings"))
   settings.root = root.value
   localStorage.setItem("settings", JSON.stringify(settings))
+  router.go(0)
 }
 
 
@@ -377,13 +393,6 @@ function addDisableProperty(node) {
     });
   }
 }
-
-onMounted(() => {
-  let front_matter = localStorage.getItem("front_matter")
-  if (front_matter !== null) {
-    frontMatters.value = JSON.parse(front_matter)
-  }
-})
 
 const save_front_matter = () => {
   if (frontMatter.value.id) {

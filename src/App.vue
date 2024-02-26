@@ -1,11 +1,9 @@
 <template>
   <el-container >
-    <el-aside style="border-radius: 20px;"><Side/></el-aside>
+    <el-aside class="app_aside"><Side/></el-aside>
     <el-container>
       <el-header id="header"><Nav /></el-header>
-      <el-main class="main_container">
-
-        <!--        <router-view ></router-view>-->
+      <el-main class="app_main_container">
         <router-view v-slot="{ Component }" v-loading.fullscreen.lock="systemStore.loading" element-loading-text="加载中...">
           <transition name="scale" mode="out-in">
             <component :is="Component" />
@@ -46,6 +44,9 @@ onBeforeMount(() => {
   }
   if (localStorage.getItem("settings") !== null){
     settingsStore.set_settings(JSON.parse(localStorage.getItem("settings")))
+  }
+  if (localStorage.getItem("front_matter") === null || JSON.parse(localStorage.getItem("front_matter")).length === 0){
+    localStorage.setItem("front_matter",JSON.stringify([{label: "文件名", key: "filename", type: "text", default: "", id: 1706532337290}]))
   }
   // get_tree()
 })
@@ -145,7 +146,7 @@ const extractNodesByPath = (node, pathToExtract, extractedArray = []) =>{
       value: node.value,
       label: node.label,
       type: node.type,
-      sha: node.sha// 添加 type 属性
+      sha: node.sha
       // 根据需要可以添加更多属性
     };
     extractedArray.push(extractedNode);
@@ -193,9 +194,11 @@ provide("extractNodesByPath",extractNodesByPath)
   opacity: 0;
   transform: scale(0.9);
 }
-.main_container{
+.app_main_container{
   max-height: calc(100vh - 86px);
   overflow-y: scroll;
 }
-
+.app_aside{
+  border-radius: 20px;
+}
 </style>

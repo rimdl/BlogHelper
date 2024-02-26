@@ -1,12 +1,12 @@
 <template>
-  <el-row style="padding:10px;border-radius: 20px">
+  <el-row class="main_main_row">
     <el-col :span="24">
       <el-row>
         <el-col :span="6" class="glass welcome" :style="welcome_style">
           <span class="welcome_label" v-if="settingsStore.settings.token">欢迎回来，{{ userStore.user_info.name }}</span>
           <span class="welcome_label" v-else>未获取到用户信息</span>
         </el-col>
-        <el-col :span="8" :offset="1" class="glass" style="border-radius: 20px;padding: 10px">
+        <el-col :span="8" :offset="1" class="glass main_userinfo">
           <el-row>
             <el-col :span="24">
               <span class="main_label">用户信息</span>
@@ -21,8 +21,8 @@
             </el-col>
           </el-row>
           <el-row v-if="settingsStore.settings.token">
-            <el-col :span="8" style="text-align: center;border-right: 1px lightgray solid;">
-              <el-avatar @error="errorHandler" :src="userStore.user_info.avatar_url" style="background: white;"
+            <el-col :span="8" class="main_userinfo_item">
+              <el-avatar @error="errorHandler" :src="userStore.user_info.avatar_url" class="main_avatar"
                          :size="78">
                 <img
                     src="/images/errorimg.svg"
@@ -31,28 +31,28 @@
               </el-avatar>
               <br>
               <span class="sub_label user_email">{{ userStore.user_info.email }}</span>
-              <p style="text-align: center">
+              <p class="main_userinfo_btn">
                 <a :href="userStore.user_info.html_url" target="_blank">
                   <el-button size="small" class="btn_github" round><img src="../../public/images/github_2.svg"
-                                                                        style="width: 16px;margin-right: 5px" alt="">我的GitHub
+                                                                        class="main_github_img" alt="">我的GitHub
                   </el-button>
                 </a>
               </p>
             </el-col>
-            <el-col :span="16" style="padding: 10px" class="userinfo_right">
+            <el-col :span="16" class="main_userinfo_right">
               <span class="sub_label">公开仓库：</span><span
-                style="font-size: x-small">{{ userStore.user_info.public_repos }}</span>
+                class="main_xs_font">{{ userStore.user_info.public_repos }}</span>
               <br>
               <span class="sub_label">创建时间：</span><span
-                style="font-size: x-small">{{ userStore.user_info.created_at }}</span>
+                class="main_xs_font">{{ userStore.user_info.created_at }}</span>
               <br>
               <span class="sub_label">个人说明：</span><span
-                style="font-size: x-small">{{ userStore.user_info.bio }}<span v-if="!userStore.user_info.bio"
-                                                                              style="font-size: xx-small;color: gray">......</span></span>
+                class="main_xs_font">{{ userStore.user_info.bio }}<span v-if="!userStore.user_info.bio"
+                                                                        class="main_xs_font">......</span></span>
               <br>
               <span class="sub_label">个人博客：</span><span
-                style="font-size: x-small">{{ userStore.user_info.blog }}<span v-if="!userStore.user_info.blog"
-                                                                               style="font-size: xx-small;color: gray">......</span></span>
+                class="main_xs_font">{{ userStore.user_info.blog }}<span v-if="!userStore.user_info.blog"
+                                                                         class="main_xs_font">......</span></span>
               <br>
 
               <p class="follower_main">
@@ -78,9 +78,8 @@
                 <el-col :span="12">
                   <span class="main_label">当前仓库信息</span>
                 </el-col>
-                <el-col :span="12" style="text-align: right">
-                  <img @click="reget_repo($event)" src="/images/refresh.svg" class="refresh_btn" style="width: 20px"
-                       alt="">
+                <el-col :span="12" class="main_title_btns">
+                    <img @click="reget_repo($event)" src="/images/refresh.svg" class="refresh_btn" style="width: 20px" alt="">
                 </el-col>
               </el-row>
             </el-col>
@@ -127,7 +126,7 @@
                 <span class="repo_span_2">
                 <img src="../../public/images/link_3.svg" style="width: 20px;" alt="">
               <span class="sub_label">仓库地址：</span><span
-                    style="font-size: x-small">{{ repositoryStore.repository_info.url }}</span>
+                    style="font-size: x-small">{{ repositoryStore.repository_info.html_url }}</span>
               </span>
             </el-col>
           </el-row>
@@ -552,6 +551,10 @@ const clearDrafts = () => {
 </script>
 
 <style scoped>
+.main_main_row{
+  padding:10px;
+  border-radius: 20px
+}
 .main_label {
   font-weight: bolder;
   color: rgba(93, 106, 137);
@@ -825,5 +828,41 @@ const clearDrafts = () => {
 .remove_svg:hover{
   animation: shaking linear 0.5s infinite alternate;
   opacity: 0.7;
+}
+.main_userinfo{
+  border-radius: 20px;
+  padding: 10px
+}
+.main_userinfo_item{
+  text-align: center;
+  border-right: 1px lightgray solid;
+}
+.main_avatar{
+  background: white;
+}
+.main_userinfo_btn{
+  text-align: center;
+}
+.main_userinfo_right{
+  padding: 10px;
+}
+.main_xs_font{
+  font-size: x-small
+}
+.main_github_img{
+  width: 16px;
+  margin-right: 5px
+}
+.main_title_btns{
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+.check_img{
+  width: 20px;
+  transition: 0.5s;
+}
+.check_img:hover{
+  scale: 1.1;
 }
 </style>
