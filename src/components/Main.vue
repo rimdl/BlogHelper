@@ -641,8 +641,6 @@ const clearDrafts = () => {
   border: none;
   border-radius: 10px;
   padding: 10px;
-  //background: #e8faea;
-  //background: linear-gradient(90deg, rgba(99, 230, 179, 1) 0%, rgba(68, 228, 141, 1) 50%, rgba(44, 225, 105, 1) 100%);
   background: rgba(255, 255, 255, 0.7);
   transition: 0.5s;
 }
@@ -651,8 +649,6 @@ const clearDrafts = () => {
   border: none;
   border-radius: 10px;
   padding: 10px;
-  //background: rgb(52, 181, 231);
-  //background: linear-gradient(90deg, rgba(52, 181, 231, 1) 0%, rgba(49, 158, 228, 1) 50%, rgba(44, 134, 225, 1) 100%);
   background: rgba(255, 255, 255, 0.7);
   transition: 0.5s;
 }
@@ -661,8 +657,6 @@ const clearDrafts = () => {
   border: none;
   border-radius: 10px;
   padding: 10px;
-  //background: rgb(219,226,52);
-  //background: linear-gradient(90deg, rgba(219,226,52,1) 0%, rgba(46,219,226,1) 100%);
   background: rgba(255, 255, 255, 0.7);
   transition: 0.5s;
 }
@@ -671,8 +665,6 @@ const clearDrafts = () => {
   border: none;
   border-radius: 10px;
   padding: 10px;
-  //background: rgb(219,226,52);
-  //background: linear-gradient(90deg, rgba(219,226,52,1) 0%, rgba(46,219,226,1) 100%);
   background: rgba(255, 255, 255, 0.7);
   transition: 0.5s;
 }
