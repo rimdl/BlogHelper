@@ -32,6 +32,14 @@ const settingsStore = useSettingsStore()
 const treeStore = useTreeStore()
 
 const router = useRouter();
+const banner = `########  ##        #######   ######   ##     ## ######## ##       ########  ######## ########
+##     ## ##       ##     ## ##    ##  ##     ## ##       ##       ##     ## ##       ##     ##
+##     ## ##       ##     ## ##        ##     ## ##       ##       ##     ## ##       ##     ##
+########  ##       ##     ## ##   #### ######### ######   ##       ########  ######   ########
+##     ## ##       ##     ## ##    ##  ##     ## ##       ##       ##        ##       ##   ##
+##     ## ##       ##     ## ##    ##  ##     ## ##       ##       ##        ##       ##    ##
+########  ########  #######   ######   ##     ## ######## ######## ##        ######## ##     ##
+`
 
 function isPropertyValueEmpty(obj, property) {
   return obj[property] === undefined || obj[property] === null || (typeof obj[property] === 'string' && obj[property].trim() === '');
@@ -99,6 +107,7 @@ const get_tree = async (showTips = true) => {
       console.log(data.error)
     }
   }
+
 }
 
 provide("get_tree",get_tree)

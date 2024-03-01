@@ -33,6 +33,9 @@ const routes = [
         path: '/settings',
         name: 'settings',
         component: () => import('../components/Settings.vue'),
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/read',
