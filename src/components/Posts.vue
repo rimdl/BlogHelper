@@ -262,7 +262,6 @@ const sha = ref('')
 const local_front_matter = ref({})
 
 onMounted(async () =>{
-  systemStore.set_loading(false)
   local_front_matter.value = JSON.parse(localStorage.getItem("front_matter"))
   if (query.filename && !query.url){
     const drafts = JSON.parse(localStorage.getItem("drafts"))

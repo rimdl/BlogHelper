@@ -1,5 +1,5 @@
 <template>
-  <el-container >
+  <el-container>
     <el-aside class="app_aside"><Side/></el-aside>
     <el-container>
       <el-header id="header"><Nav /></el-header>
@@ -50,13 +50,10 @@ onBeforeMount(() => {
   }
   // get_tree()
 })
-onMounted(() => {
-  systemStore.set_loading(false)
-})
+
 watch(() => router.currentRoute.value, (newVal, oldVal) =>{
   if (newVal !== oldVal){
     systemStore.set_now_page(newVal.name)
-    systemStore.set_loading(true)
   }
 })
 

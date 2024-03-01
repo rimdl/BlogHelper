@@ -44,7 +44,6 @@ onMounted(()=>{
   link.rel = 'stylesheet'
   link.href = 'https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css'
   document.head.appendChild(link)
-  systemStore.set_loading(false)
 })
 const read = async (url) => {
   let headers = {

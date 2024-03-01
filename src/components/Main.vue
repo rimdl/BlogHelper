@@ -393,7 +393,6 @@ function isPropertyValueEmpty(obj, property) {
 
 const get_tree = inject("get_tree")
 onMounted(() => {
-  systemStore.set_loading(false)
   if (!isPropertyValueEmpty(settingsStore.settings, 'token')) {
     get_tree(false)
     get_repository_info()

@@ -251,7 +251,7 @@ onBeforeMount(() => {
   }
 })
 onMounted(async ()=>{
-  systemStore.set_loading(false)
+
   let front_matter = localStorage.getItem("front_matter")
   if (front_matter !== null) {
     frontMatters.value = JSON.parse(front_matter)

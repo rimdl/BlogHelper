@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-col :span="24" class="side">
+    <el-col :span="24"  class="side">
       <el-row style="background: transparent">
         <el-col :span="24" class="logo">
           <el-avatar :size="50" :src="'/images/logo.png'"/>
@@ -40,7 +40,7 @@
 
       <div style="position: absolute;bottom: 1vh;width: 100%;">
         <el-row style="padding: 10px">
-          <el-col :span-24 class="help_btn">
+          <el-col :span="24" class="help_btn">
             <a href="https://github.com/rimdl/BlogHelper" style="text-decoration: none;color: #2c3e50;font-weight: bolder" target="_blank">
               需要帮助？
             </a>
