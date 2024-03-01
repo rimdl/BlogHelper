@@ -302,7 +302,8 @@ watch([() => repo.value, () => treeStore.tree_info], ([newVal, newVal2], [oldVal
       sub_repo.value = newVal.trim().substring(newVal.indexOf(".com/") + 5)
     }
     if (newVal2 !== oldVal2) {
-      let originalData = newVal2
+      const tempData = newVal2
+      let originalData = tempData
       // 遍历并修改顶层节点
       originalData.forEach(rootNode => {
         addDisableProperty(rootNode);

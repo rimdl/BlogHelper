@@ -368,7 +368,7 @@
 
 <script setup>
 import {useUserStore} from "../stores/userStore.js";
-import {inject, onMounted, ref, watch} from "vue";
+import {computed, inject, onBeforeMount, onMounted, ref, watch} from "vue";
 import party from "party-js";
 import {useSettingsStore} from "../stores/settingsStore.js";
 import {useRepositoryStore} from "../stores/repositoryStore.js";
@@ -397,18 +397,15 @@ function isPropertyValueEmpty(obj, property) {
 }
 
 const get_tree = inject("get_tree")
+onBeforeMount(() => {
+
+})
 onMounted(() => {
   if (!isPropertyValueEmpty(settingsStore.settings, 'token')) {
-    if (treeStore.tree_info.length === 0) {
-      get_tree(false)
-    } else {
-      if (systemStore.loadTree) {
-        get_tree(true);
-        systemStore.set_loadTree(false)
-      }
-    }
+    get_tree(false).then(() =>{
+      getPostFile()
+    })
     get_repository_info()
-    getPostFile()
     getDrafts()
   } else {
     ElMessageBox({
@@ -426,6 +423,12 @@ onMounted(() => {
   welcome_style.value = `background-image: url('${userStore.user_info.avatar_url}');background-size: cover;`
 })
 
+watch(() => treeStore.tree_info,(nv,ov) => {
+  if (nv !== ov){
+    getPostFile();
+    console.log("tree change")
+  }
+})
 
 const reget_repo = async (e) => {
   ElNotification({
@@ -486,12 +489,7 @@ const getDrafts = () => {
   }
 }
 
-watch(() => treeStore.tree_info, (newVal, oldVal) => {
-  if (newVal !== oldVal) {
-    getPostFile();
-    console.log("tree_info changed")
-  }
-})
+
 
 const deleteDraft = (filename) => {
   const drafts = JSON.parse(localStorage.getItem("drafts"))
