@@ -479,6 +479,7 @@ const publish_post = async (e) => {
     editorData.value = ''
     show_edit.value = false
     showSettings.value = false
+    systemStore.set_loadTree(true)
     ElNotification({
       title: '成功',
       message: '文章发布成功',

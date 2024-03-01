@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import Main from '../components/Main.vue'
 import {ElNotification} from "element-plus";
 import {useSystemStore} from "@/stores/systemStore.js";
@@ -52,8 +52,8 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const systemStore = useSystemStore()
     systemStore.set_loading(true)
-    if (to.meta.requiresAuth){
-        if (localStorage.getItem("settings") === null){
+    if (to.meta.requiresAuth) {
+        if (localStorage.getItem("settings") === null) {
             ElNotification({
                 title: '提示',
                 message: '未设置账户信息，请设置',
@@ -61,12 +61,10 @@ router.beforeEach((to, from, next) => {
                 position: 'top-right'
             })
             next('/settings')
-        }
-        else {
+        } else {
             next()
         }
-    }
-    else {
+    } else {
         next()
     }
 })
@@ -74,4 +72,6 @@ router.afterEach(() => {
     const systemStore = useSystemStore()
     systemStore.set_loading(false)
 })
+
+
 export default router

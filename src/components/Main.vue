@@ -79,7 +79,8 @@
                   <span class="main_label">当前仓库信息</span>
                 </el-col>
                 <el-col :span="12" class="main_title_btns">
-                    <img @click="reget_repo($event)" src="/images/refresh.svg" class="refresh_btn" style="width: 20px" alt="">
+                  <img @click="reget_repo($event)" src="/images/refresh.svg" class="refresh_btn" style="width: 20px"
+                       alt="">
                 </el-col>
               </el-row>
             </el-col>
@@ -106,27 +107,27 @@
                     style="font-size: x-small;font-weight: bolder">{{ repositoryStore.repository_info.private }}</span>
               </span>
               </p>
-                <span class="repo_span_2">
+              <span class="repo_span_2">
                   <img src="../../public/images/time.svg" style="width: 20px;" alt="">
                   <span class="sub_label">创建时间：</span><span
-                    style="font-size: x-small">{{ repositoryStore.repository_info.created_at }}</span>
+                  style="font-size: x-small">{{ repositoryStore.repository_info.created_at }}</span>
                 </span>
-                <span class="repo_span_2">
+              <span class="repo_span_2">
                    <img src="../../public/images/desc.svg" style="width: 20px;" alt="">
                   <span class="sub_label">仓库描述：</span><span
-                    style="font-size: x-small">{{ repositoryStore.repository_info.description }}<span
-                    v-if="!repositoryStore.repository_info.description"
-                    style="font-size: xx-small;color: gray">......</span></span>
+                  style="font-size: x-small">{{ repositoryStore.repository_info.description }}<span
+                  v-if="!repositoryStore.repository_info.description"
+                  style="font-size: xx-small;color: gray">......</span></span>
               </span>
-                <span class="repo_span_2">
+              <span class="repo_span_2">
                 <img src="../../public/images/link_2.svg" style="width: 20px;" alt="">
               <span class="sub_label">克隆地址：</span><span
-                    style="font-size: x-small">{{ repositoryStore.repository_info.clone_url }}</span>
+                  style="font-size: x-small">{{ repositoryStore.repository_info.clone_url }}</span>
               </span>
-                <span class="repo_span_2">
+              <span class="repo_span_2">
                 <img src="../../public/images/link_3.svg" style="width: 20px;" alt="">
               <span class="sub_label">仓库地址：</span><span
-                    style="font-size: x-small">{{ repositoryStore.repository_info.html_url }}</span>
+                  style="font-size: x-small">{{ repositoryStore.repository_info.html_url }}</span>
               </span>
             </el-col>
           </el-row>
@@ -273,7 +274,8 @@
                   <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
                                  @confirm="deleteGit(item.sha,item.label.substring(item.label.indexOf('_post') + 7),$event)">
                     <template #reference>
-                      <el-avatar class="remove_svg" title="删除" :size="30" style="background: white;margin-left: 1vw" src="/images/delete.svg"/>
+                      <el-avatar class="remove_svg" title="删除" :size="30" style="background: white;margin-left: 1vw"
+                                 src="/images/delete.svg"/>
                     </template>
                   </el-popconfirm>
                 </el-col>
@@ -292,9 +294,11 @@
                   <label class="main_label">草稿箱</label>
                 </el-col>
                 <el-col :span="6" style="text-align: right">
-                  <el-popconfirm title="确认清空草稿箱?" @confirm="clearDrafts" confirm-button-text="清空" cancel-button-text="取消">
+                  <el-popconfirm title="确认清空草稿箱?" @confirm="clearDrafts" confirm-button-text="清空"
+                                 cancel-button-text="取消">
                     <template #reference>
-                      <img title="清空草稿箱" src="../../public/images/clear.svg" class="clear_btn" style="width: 20px;" alt="">
+                      <img title="清空草稿箱" src="../../public/images/clear.svg" class="clear_btn" style="width: 20px;"
+                           alt="">
                     </template>
                   </el-popconfirm>
 
@@ -323,7 +327,8 @@
                   <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
                                  @confirm="deleteDraft(item.filename)">
                     <template #reference>
-                      <el-avatar class="remove_svg" title="删除" :size="30" style="background: white;margin-left: 1vw" src="/images/delete.svg"/>
+                      <el-avatar class="remove_svg" title="删除" :size="30" style="background: white;margin-left: 1vw"
+                                 src="/images/delete.svg"/>
                     </template>
                   </el-popconfirm>
 
@@ -394,7 +399,14 @@ function isPropertyValueEmpty(obj, property) {
 const get_tree = inject("get_tree")
 onMounted(() => {
   if (!isPropertyValueEmpty(settingsStore.settings, 'token')) {
-    get_tree(false)
+    if (treeStore.tree_info.length === 0) {
+      get_tree(false)
+    } else {
+      if (systemStore.loadTree) {
+        get_tree(true);
+        systemStore.set_loadTree(false)
+      }
+    }
     get_repository_info()
     getPostFile()
     getDrafts()
@@ -524,6 +536,7 @@ const deleteGit = async (sha, filename, e) => {
     getPostFile()
     party.confetti(e)
     fileList.value = fileList.value.filter(item => item.sha !== sha)
+    systemStore.set_loadTree(true)
     ElNotification({
       title: '提示',
       message: '删除成功啦',
@@ -550,10 +563,11 @@ const clearDrafts = () => {
 </script>
 
 <style scoped>
-.main_main_row{
-  padding:10px;
+.main_main_row {
+  padding: 10px;
   border-radius: 20px
 }
+
 .main_label {
   font-weight: bolder;
   color: rgba(93, 106, 137);
@@ -768,7 +782,8 @@ const clearDrafts = () => {
   padding: 10px;
   transition: 0.5s;
 }
-.follower_main:hover{
+
+.follower_main:hover {
   box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.1);
   scale: 1.01;
 }
@@ -787,10 +802,12 @@ const clearDrafts = () => {
   margin-top: -2vh;
   transition: 0.5s;
 }
-.repo_main:hover{
+
+.repo_main:hover {
   box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.1);
   scale: 1.01;
 }
+
 .repo_span {
   display: flex;
   align-items: center;
@@ -805,63 +822,78 @@ const clearDrafts = () => {
   width: 100%;
   margin-top: 1vh;
 }
-.clear_btn{
+
+.clear_btn {
   transform-origin: center top;
   cursor: pointer;
 }
-.clear_btn:hover{
+
+.clear_btn:hover {
   animation: shaking linear 1s infinite alternate;
 }
-@keyframes shaking{
-  0%{
+
+@keyframes shaking {
+  0% {
     transform: rotate(15deg);
   }
-  100%{
+  100% {
     transform: rotate(-15deg);
   }
 }
-.edit_svg:hover{
+
+.edit_svg:hover {
   animation: shaking linear 0.5s infinite alternate;
   opacity: 0.7;
 }
-.remove_svg:hover{
+
+.remove_svg:hover {
   animation: shaking linear 0.5s infinite alternate;
   opacity: 0.7;
 }
-.main_userinfo{
+
+.main_userinfo {
   border-radius: 20px;
   padding: 10px
 }
-.main_userinfo_item{
+
+.main_userinfo_item {
   text-align: center;
   border-right: 1px lightgray solid;
 }
-.main_avatar{
+
+.main_avatar {
   background: white;
 }
-.main_userinfo_btn{
+
+.main_userinfo_btn {
   text-align: center;
 }
-.main_userinfo_right{
+
+.main_userinfo_right {
   padding: 10px;
 }
-.main_xs_font{
+
+.main_xs_font {
   font-size: x-small
 }
-.main_github_img{
+
+.main_github_img {
   width: 16px;
   margin-right: 5px
 }
-.main_title_btns{
+
+.main_title_btns {
   display: flex;
   justify-content: right;
   align-items: center;
 }
-.check_img{
+
+.check_img {
   width: 20px;
   transition: 0.5s;
 }
-.check_img:hover{
+
+.check_img:hover {
   scale: 1.1;
 }
 </style>
