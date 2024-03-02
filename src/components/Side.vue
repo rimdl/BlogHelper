@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-col :span="24"  class="side">
+    <el-col :span="24" class="side hidden-xs-only">
       <el-row style="background: transparent">
         <el-col :span="24" class="logo">
           <el-avatar :size="50" :src="'/images/logo.png'"/>

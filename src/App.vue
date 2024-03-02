@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside class="app_aside"><Side/></el-aside>
+    <el-aside class="app_aside" ><Side/></el-aside>
     <el-container>
       <el-header id="header"><Nav /></el-header>
       <el-main class="app_main_container">
@@ -32,14 +32,6 @@ const settingsStore = useSettingsStore()
 const treeStore = useTreeStore()
 
 const router = useRouter();
-const banner = `########  ##        #######   ######   ##     ## ######## ##       ########  ######## ########
-##     ## ##       ##     ## ##    ##  ##     ## ##       ##       ##     ## ##       ##     ##
-##     ## ##       ##     ## ##        ##     ## ##       ##       ##     ## ##       ##     ##
-########  ##       ##     ## ##   #### ######### ######   ##       ########  ######   ########
-##     ## ##       ##     ## ##    ##  ##     ## ##       ##       ##        ##       ##   ##
-##     ## ##       ##     ## ##    ##  ##     ## ##       ##       ##        ##       ##    ##
-########  ########  #######   ######   ##     ## ######## ######## ##        ######## ##     ##
-`
 
 function isPropertyValueEmpty(obj, property) {
   return obj[property] === undefined || obj[property] === null || (typeof obj[property] === 'string' && obj[property].trim() === '');

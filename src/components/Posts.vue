@@ -1,6 +1,6 @@
 <template>
   <el-row style="margin-top: 2vh;">
-    <el-col :span="7">
+    <el-col :lg="7" :xs="24">
       <el-row>
         <el-col :span="11">
           <el-row class="glass myBtn" @click="newPost">
@@ -96,8 +96,8 @@
       </transition>
     </el-col>
     <transition name="fade-in">
-    <el-col  v-if="show_edit" :span="16" :offset="1"  class="glass" style="border-radius: 20px;padding: 10px;overflow-y: scroll;">
-      <div>
+    <el-col  v-if="show_edit" :lg="16" xs="20"   style="padding: 10px;overflow-y: scroll;">
+      <div style="padding: 10px;border-radius: 20px;" class="glass">
         <ckeditor5 :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor5>
       </div>
     </el-col>

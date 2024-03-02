@@ -21,7 +21,7 @@
             </el-col>
           </el-row>
           <el-row v-if="settingsStore.settings.token">
-            <el-col :span="8" class="main_userinfo_item">
+            <el-col :lg="8" :xs="24" class="main_userinfo_item">
               <el-avatar @error="errorHandler" :src="userStore.user_info.avatar_url" class="main_avatar"
                          :size="78">
                 <img
@@ -39,7 +39,7 @@
                 </a>
               </p>
             </el-col>
-            <el-col :span="16" class="main_userinfo_right">
+            <el-col :lg="16" :xs="24" class="main_userinfo_right">
               <span class="sub_label">公开仓库：</span><span
                 class="main_xs_font">{{ userStore.user_info.public_repos }}</span>
               <br>
@@ -136,8 +136,8 @@
       </el-row>
 
       <el-row style="margin-top: 2vh">
-        <el-col :span="5" class="glass bl">
-          <el-row>
+        <el-col style="padding: 10px" :lg="6" :xs="12" :md="12" >
+          <el-row class="glass bl">
             <el-col :span="10">
               <!--              <el-avatar :size="50" src="/images/edit_2.svg" style="background: blue" :fit="'cover'"/>-->
               <img src="/images/edit_2.svg" alt="error"
@@ -160,8 +160,8 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="5" :offset="1" class="glass bl3">
-          <el-row>
+        <el-col style="padding: 10px" :lg="6" :xs="12" :md="12">
+          <el-row  class="glass bl3">
             <el-col :span="10">
               <img src="/images/settings_3.svg" alt="error"
                    style="background: white;background-size: cover;width: 50px;margin-left: 10px;border-radius: 10px"/>
@@ -183,8 +183,8 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="5" :offset="1" class="glass bl4">
-          <el-row>
+        <el-col style="padding: 10px" :lg="6" :xs="12" :md="12">
+          <el-row  class="glass bl4">
             <el-col :span="10">
               <!--              <el-avatar :size="50" src="/images/github.svg" style="background: white"/>-->
               <img src="/images/myself.svg" alt="error"
@@ -207,8 +207,8 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="6" :offset="1" class="glass bl2">
-          <el-row>
+        <el-col style="padding: 10px" :lg="6" :xs="12" :md="12">
+          <el-row  class="glass bl2">
             <el-col :span="10">
               <!--              <el-avatar :size="50" src="/images/github.svg" style="background: white"/>-->
               <img src="/images/github.svg" alt="error"
@@ -233,113 +233,117 @@
         </el-col>
       </el-row>
 
-      <el-row style="margin-top: 2vh">
-        <el-col :span="12" class="glass" style="padding: 10px;border-radius: 20px">
-          <el-row>
-            <el-col :span="24">
+      <el-row style="margin-top: 2vh;">
+          <el-col :lg="12" :xs="24" :sm="24" :md="24"  style="border-radius: 20px;padding: 10px">
+            <div class="glass" style="padding: 10px;border-radius: 20px;">
               <el-row>
-                <el-col :span="12">
-                  <label class="main_label">已发布文章</label>
+                <el-col :span="24">
+                  <el-row>
+                    <el-col :span="12">
+                      <label class="main_label">已发布文章</label>
+                    </el-col>
+                    <el-col :span="12" style="text-align: right">
+                      <!--                  <el-button @click="get_tree" round size="small">刷新</el-button>-->
+                      <img @click="get_tree" src="/images/refresh.svg" class="refresh_btn" style="width: 20px" alt="">
+                    </el-col>
+                  </el-row>
                 </el-col>
-                <el-col :span="12" style="text-align: right">
-                  <!--                  <el-button @click="get_tree" round size="small">刷新</el-button>-->
-                  <img @click="get_tree" src="/images/refresh.svg" class="refresh_btn" style="width: 20px" alt="">
+                <el-col :span="24">
+                  <el-divider border-style="dashed"/>
                 </el-col>
               </el-row>
-            </el-col>
-            <el-col :span="24">
-              <el-divider border-style="dashed"/>
-            </el-col>
-          </el-row>
-          <el-row class="preview_post">
-            <el-col :span="24" v-for="(item,index) in  fileList" :key="item.value.url" class="post">
-              <el-row>
-                <el-col :span="20">
-                  <router-link
-                      :to="'/read?url='+item.value.url" style="text-decoration: none">
-                    <el-tag round effect="dark">{{ index + 1 }}</el-tag>
-                    <span class="main_label" title="点击阅读">&nbsp;&nbsp;{{
-                        item.label.substring(item.label.indexOf('_post') + 7)
-                      }}</span>
-                  </router-link>
-                </el-col>
-                <el-col :span="4" style="text-align: right">
-                  <el-tooltip content="编辑" placement="top" effect="light">
-                    <router-link
-                        :to="'/posts?filename='+item.label.substring(item.label.indexOf('_post') + 7)+'&url='+item.value.url">
-                      <el-avatar :size="30" class="edit_svg" style="background: white" src="/images/edit.svg"/>
-                    </router-link>
-                  </el-tooltip>
+              <el-row class="preview_post">
+                <el-col :span="24" v-for="(item,index) in  fileList" :key="item.value.url" class="post">
+                  <el-row>
+                    <el-col :span="18">
+                      <router-link
+                          :to="'/read?url='+item.value.url" style="text-decoration: none">
 
-                  <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
-                                 @confirm="deleteGit(item.sha,item.label.substring(item.label.indexOf('_post') + 7),$event)">
-                    <template #reference>
-                      <el-avatar class="remove_svg" title="删除" :size="30" style="background: white;margin-left: 1vw"
-                                 src="/images/delete.svg"/>
-                    </template>
-                  </el-popconfirm>
+                        <span class="main_label" style="display:inline-block;width: 100%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis" title="点击阅读">&nbsp;&nbsp;<el-tag round effect="dark">{{ index + 1 }}</el-tag> {{
+                            item.label.substring(item.label.indexOf('_post') + 7)
+                          }}</span>
+                      </router-link>
+                    </el-col>
+                    <el-col :span="6" style="text-align: right">
+                      <el-tooltip content="编辑" placement="top" effect="light">
+                        <router-link
+                            :to="'/posts?filename='+item.label.substring(item.label.indexOf('_post') + 7)+'&url='+item.value.url">
+                          <el-avatar :size="30" class="edit_svg" style="background: white" src="/images/edit.svg"/>
+                        </router-link>
+                      </el-tooltip>
+
+                      <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
+                                     @confirm="deleteGit(item.sha,item.label.substring(item.label.indexOf('_post') + 7),$event)">
+                        <template #reference>
+                          <el-avatar class="remove_svg" title="删除" :size="30" style="background: white;margin-left: 1vw"
+                                     src="/images/delete.svg"/>
+                        </template>
+                      </el-popconfirm>
+                    </el-col>
+                  </el-row>
+                </el-col>
+                <el-col :span="24" v-if="fileList.length === 0">
+                  <el-empty :image-size="100" description="没有数据"/>
                 </el-col>
               </el-row>
-            </el-col>
-            <el-col :span="24" v-if="fileList.length === 0">
-              <el-empty :image-size="100" description="没有数据"/>
-            </el-col>
-          </el-row>
-        </el-col>
-        <el-col :span="11" :offset="1" class="glass" style="border-radius: 20px;padding: 10px">
-          <el-row>
-            <el-col :span="24">
+            </div>
+          </el-col>
+          <el-col  :lg="12" :xs="24" style="border-radius: 20px;padding: 10px;">
+            <div class="glass" style="border-radius: 20px;padding: 10px;height: calc(100% - 20px)">
               <el-row>
-                <el-col :span="18">
-                  <label class="main_label">草稿箱</label>
-                </el-col>
-                <el-col :span="6" style="text-align: right">
-                  <el-popconfirm title="确认清空草稿箱?" @confirm="clearDrafts" confirm-button-text="清空"
-                                 cancel-button-text="取消">
-                    <template #reference>
-                      <img title="清空草稿箱" src="../../public/images/clear.svg" class="clear_btn" style="width: 20px;"
-                           alt="">
-                    </template>
-                  </el-popconfirm>
+                <el-col :span="24">
+                  <el-row>
+                    <el-col :span="18">
+                      <label class="main_label">草稿箱</label>
+                    </el-col>
+                    <el-col :span="6" style="text-align: right">
+                      <el-popconfirm title="确认清空草稿箱?" @confirm="clearDrafts" confirm-button-text="清空"
+                                     cancel-button-text="取消">
+                        <template #reference>
+                          <img title="清空草稿箱" src="../../public/images/clear.svg" class="clear_btn" style="width: 20px;"
+                               alt="">
+                        </template>
+                      </el-popconfirm>
 
+                    </el-col>
+                  </el-row>
+
+                </el-col>
+                <el-col :span="24">
+                  <el-divider border-style="dashed"/>
                 </el-col>
               </el-row>
+              <el-row class="preview_post">
+                <el-col :span="24" v-for="(item,index) in  drafts" :key="index" class="post">
+                  <el-row>
+                    <el-col :span="18">
+                      <el-tag round effect="dark">{{ index + 1 }}</el-tag>
+                      <span class="main_label">&nbsp;&nbsp;{{ item.filename }}</span>
+                    </el-col>
+                    <el-col :span="6" style="text-align: right">
+                      <el-tooltip content="编辑" placement="top" effect="light">
+                        <router-link :to="'/posts?filename='+item.filename">
+                          <el-avatar class="edit_svg" :size="30" style="background: white" src="/images/edit.svg"/>
+                        </router-link>
+                      </el-tooltip>
 
-            </el-col>
-            <el-col :span="24">
-              <el-divider border-style="dashed"/>
-            </el-col>
-          </el-row>
-          <el-row class="preview_post">
-            <el-col :span="24" v-for="(item,index) in  drafts" :key="index" class="post">
-              <el-row>
-                <el-col :span="20">
-                  <el-tag round effect="dark">{{ index + 1 }}</el-tag>
-                  <span class="main_label">&nbsp;&nbsp;{{ item.filename }}</span>
+                      <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
+                                     @confirm="deleteDraft(item.filename)">
+                        <template #reference>
+                          <el-avatar class="remove_svg" title="删除" :size="30" style="background: white;margin-left: 1vw"
+                                     src="/images/delete.svg"/>
+                        </template>
+                      </el-popconfirm>
+
+                    </el-col>
+                  </el-row>
                 </el-col>
-                <el-col :span="4" style="text-align: right">
-                  <el-tooltip content="编辑" placement="top" effect="light">
-                    <router-link :to="'/posts?filename='+item.filename">
-                      <el-avatar class="edit_svg" :size="30" style="background: white" src="/images/edit.svg"/>
-                    </router-link>
-                  </el-tooltip>
-
-                  <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" title="确定删除吗？"
-                                 @confirm="deleteDraft(item.filename)">
-                    <template #reference>
-                      <el-avatar class="remove_svg" title="删除" :size="30" style="background: white;margin-left: 1vw"
-                                 src="/images/delete.svg"/>
-                    </template>
-                  </el-popconfirm>
-
+                <el-col :span="24" v-if="drafts.length === 0">
+                  <el-empty :image-size="100" description="没有数据"/>
                 </el-col>
               </el-row>
-            </el-col>
-            <el-col :span="24" v-if="drafts.length === 0">
-              <el-empty :image-size="100" description="没有数据"/>
-            </el-col>
-          </el-row>
-        </el-col>
+            </div>
+          </el-col>
       </el-row>
     </el-col>
     <el-col :span="24" class="main_footer">
