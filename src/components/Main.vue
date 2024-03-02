@@ -259,7 +259,7 @@
                       <router-link
                           :to="'/read?url='+item.value.url" style="text-decoration: none">
 
-                        <span class="main_label" style="display:inline-block;width: 100%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis" title="点击阅读">&nbsp;&nbsp;<el-tag round effect="dark">{{ index + 1 }}</el-tag> {{
+                        <span class="main_label" style="display:inline-block;width: 100%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis" :title="'点击阅读：'+item.label.substring(item.label.indexOf('_post') + 7)">&nbsp;&nbsp;<el-tag round effect="dark">{{ index + 1 }}</el-tag> {{
                             item.label.substring(item.label.indexOf('_post') + 7)
                           }}</span>
                       </router-link>
